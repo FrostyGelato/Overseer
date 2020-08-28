@@ -11,12 +11,14 @@ public class ConfigManager {
 	
 	Properties appConfig;
 	String configPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "config.properties";
+	String defaultConfigPath = "src/default.properties";
 	
 	//loads properties
 	public ConfigManager() throws IOException {
+		
 		//loads default configuration from storage
 		Properties defaultConfig = new Properties();
-		FileInputStream in = new FileInputStream("src/default.properties");
+		FileInputStream in = new FileInputStream(defaultConfigPath);
 		defaultConfig.load(in);
 		in.close();
 		

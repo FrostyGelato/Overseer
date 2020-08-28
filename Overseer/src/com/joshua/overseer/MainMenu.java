@@ -1,13 +1,8 @@
 package com.joshua.overseer;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 import org.json.simple.JSONArray;
@@ -45,9 +40,7 @@ public class MainMenu extends JFrame {
 		
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
-		loadSchedule();
-		
-		TaskManager taskManager = new TaskManager();
+		checkAndLoadSchedule();
 		
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {
@@ -77,6 +70,10 @@ public class MainMenu extends JFrame {
 		JButton deleteTask = new JButton("Delete");
 		deleteTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//needed
+				//loads tasks from disk so they can be deleted
+				TaskManager taskManager = new TaskManager();
+				
 				taskManager.deleteTask(taskJList.getSelectedIndex());
 				refreshSchedule();
 			}
@@ -102,39 +99,9 @@ public class MainMenu extends JFrame {
 		contentPane.add(settingButton);
 	}
 	
-	public static class TaskListCellRenderer extends JPanel implements ListCellRenderer<Task> {
-        private JLabel nameLabel;
-        private JLabel timeLabel;
-
-        public TaskListCellRenderer() {
-            super(new BorderLayout());
-            nameLabel = new JLabel();
-            timeLabel = new JLabel();
-
-            add(nameLabel, BorderLayout.PAGE_START);
-            add(timeLabel, BorderLayout.PAGE_END);
-            setOpaque(true); //for visible backgrounds
-        }
-
-        @Override
-        public Component getListCellRendererComponent(JList<? extends Task> list, Task value, int index, boolean isSelected,
-                boolean cellHasFocus) {
-            nameLabel.setText(value.name);
-            timeLabel.setText(value.time);
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
-            return this;
-        }
-
-    }
-	
-	public void loadSchedule() {
+	public void checkAndLoadSchedule() {
 		if (new File(taskPath).isFile() == true) {
+			
 			loadData();
 		
 			taskJList.setCellRenderer(new TaskListCellRenderer());
@@ -170,5 +137,4 @@ public class MainMenu extends JFrame {
           model.addElement(taskEvent);
         }
 	}
-
 }

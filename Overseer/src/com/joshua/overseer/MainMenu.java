@@ -29,10 +29,9 @@ public class MainMenu extends JFrame {
 
 	private JPanel contentPane;
 	
-	DefaultListModel<task> model = new DefaultListModel<>();
-	JList<task> taskJList = new JList<>(model);
+	DefaultListModel<Task> model = new DefaultListModel<>();
+	JList<Task> taskJList = new JList<>(model);
 	
-	String programFolder = System.getProperty("user.home") + File.separator + ".overseer";
 	String taskPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "tasks.json";
 
 	public MainMenu() {
@@ -45,7 +44,7 @@ public class MainMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		// checks if folder for program exists
-		directoryChecker();
+		DirectoryChecker directoryChecker = new DirectoryChecker();
 		loadSchedule();
 		
 		TaskManager taskManager = new TaskManager();
@@ -103,18 +102,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(settingButton);
 	}
 	
-	public static class task {
-        private String name;
-        private String time;
-
-        public task(String name, String time) {
-            super();
-            this.name = name;
-            this.time = time;
-        }
-    }
-	
-	public static class TaskListCellRenderer extends JPanel implements ListCellRenderer<task> {
+	public static class TaskListCellRenderer extends JPanel implements ListCellRenderer<Task> {
         private JLabel nameLabel;
         private JLabel timeLabel;
 
@@ -129,7 +117,7 @@ public class MainMenu extends JFrame {
         }
 
         @Override
-        public Component getListCellRendererComponent(JList<? extends task> list, task value, int index, boolean isSelected,
+        public Component getListCellRendererComponent(JList<? extends Task> list, Task value, int index, boolean isSelected,
                 boolean cellHasFocus) {
             nameLabel.setText(value.name);
             timeLabel.setText(value.time);
@@ -178,15 +166,9 @@ public class MainMenu extends JFrame {
           JSONObject jsonTask = (JSONObject) arrayTask;
           String name = (String) jsonTask.get("name");
           String time = (String) jsonTask.get("timeRequired");
-          task taskEvent = new task(name, time);
+          Task taskEvent = new Task(name, time);
           model.addElement(taskEvent);
         }
-	}
-	
-	public void directoryChecker() {
-		if (new File(programFolder).isDirectory() == false) {
-			new File(programFolder).mkdirs();
-		}
 	}
 
 }

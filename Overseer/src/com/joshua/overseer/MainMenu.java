@@ -42,12 +42,6 @@ public class MainMenu extends JFrame {
 		
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
-		checkAndLoadSchedule();
-		
-		JLabel lblNewLabel = new JLabel("Nothing to Do...");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(140, 340, 128, 30);
-		contentPane.add(lblNewLabel);
 		
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {
@@ -104,6 +98,19 @@ public class MainMenu extends JFrame {
 		});
 		settingButton.setBounds(285, 728, 97, 25);
 		contentPane.add(settingButton);
+		
+		checkAndLoadSchedule();
+		
+		//must go after schedule is loaded
+		JLabel lblNewLabel = new JLabel("Nothing to Do...");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setBounds(140, 340, 128, 30);
+		contentPane.add(lblNewLabel);
+		
+		if (new File(taskPath).isFile() == false) {
+			modifyTask.setEnabled(false);
+			deleteTask.setEnabled(false);
+		}
 	}
 	
 	public void checkAndLoadSchedule() {
@@ -114,6 +121,7 @@ public class MainMenu extends JFrame {
 			taskJList.setCellRenderer(new TaskListCellRenderer());
 			taskJList.setBounds(0, 40, 380, 680);
 			contentPane.add(taskJList);
+		} else {
 		}
 	}
 	

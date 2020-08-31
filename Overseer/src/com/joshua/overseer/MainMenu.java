@@ -1,6 +1,7 @@
 package com.joshua.overseer;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 public class MainMenu extends JFrame {
@@ -41,6 +43,11 @@ public class MainMenu extends JFrame {
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
 		checkAndLoadSchedule();
+		
+		JLabel lblNewLabel = new JLabel("Nothing to Do...");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setBounds(140, 340, 128, 30);
+		contentPane.add(lblNewLabel);
 		
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {

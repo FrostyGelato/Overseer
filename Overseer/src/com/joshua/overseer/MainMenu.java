@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.xml.transform.Templates;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,6 +31,7 @@ public class MainMenu extends JFrame {
 	JList<Task> taskJList = new JList<>(model);
 	
 	String taskPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "tasks.json";
+	MainMenu thisFrame = this;
 
 	public MainMenu() {
 		
@@ -46,7 +48,7 @@ public class MainMenu extends JFrame {
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AddMenu newTask = new AddMenu();
+				AddMenu newTask = new AddMenu(thisFrame);
 				newTask.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				// Set window title
 				newTask.setTitle("Add Task");
@@ -121,7 +123,6 @@ public class MainMenu extends JFrame {
 			taskJList.setCellRenderer(new TaskListCellRenderer());
 			taskJList.setBounds(0, 40, 380, 680);
 			contentPane.add(taskJList);
-		} else {
 		}
 	}
 	

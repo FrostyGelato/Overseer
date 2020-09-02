@@ -29,7 +29,7 @@ public class AddMenu extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField taskName;
 
-	public AddMenu() {
+	public AddMenu(MainMenu parentJFrame) {
 		TaskManager taskManager = new TaskManager();
 		
 		setBounds(100, 100, 450, 600);
@@ -72,12 +72,6 @@ public class AddMenu extends JDialog {
 			timeError.printStackTrace();
 		}
 		
-		/*JSpinner timeSpinner = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
-		timeSpinner.setEditor(timeEditor);
-		LocalTime newTime = LocalTime.of(11, 9);
-		timeSpinner.setValue(newTime);*/
-		
 		timeSpinner.setBounds(151, 53, 73, 25);
 		contentPanel.add(timeSpinner);
 		
@@ -109,6 +103,7 @@ public class AddMenu extends JDialog {
 						
 						// localTime is automatically set to midnight if not chosen
 						taskManager.addTask(taskName.getText(), length, deadlinePicker.getDateTimePermissive());
+						parentJFrame.refreshSchedule();
 						dispose();
 					}
 				});

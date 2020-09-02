@@ -50,7 +50,6 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				AddMenu newTask = new AddMenu(thisFrame);
 				newTask.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				// Set window title
 				newTask.setTitle("Add Task");
 				newTask.setVisible(true);
 			}
@@ -61,7 +60,7 @@ public class MainMenu extends JFrame {
 		JButton modifyTask = new JButton("Modify");
 		modifyTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				 ModifyMenu modifyTask = new ModifyMenu();
+				 ModifyMenu modifyTask = new ModifyMenu(thisFrame, taskJList.getSelectedIndex());
 				 modifyTask.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				 modifyTask.setTitle("Modify Task");
 				 modifyTask.setVisible(true);

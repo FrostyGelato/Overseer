@@ -19,7 +19,7 @@ public class ModifyMenu extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 
-	public ModifyMenu() {
+	public ModifyMenu(MainMenu parentJFrame, int arrayIndex) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,6 +58,7 @@ public class ModifyMenu extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						parentJFrame.refreshSchedule();
 						dispose();
 					}
 				});

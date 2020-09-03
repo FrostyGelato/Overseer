@@ -5,10 +5,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.json.simple.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+//import org.json.*;
 public class TaskManager {
 	
 	JSONArray taskArray = new JSONArray();
@@ -52,6 +53,12 @@ public class TaskManager {
 		if (arrayIndex >= 0) {
 			taskArray.remove(arrayIndex);
 			writeToDisk();
+		}
+	}
+	
+	public void getTaskData(int arrayIndex) {
+		if (arrayIndex >= 0) {
+			//taskArray.getJSONObject(arrayIndex);
 		}
 	}
 

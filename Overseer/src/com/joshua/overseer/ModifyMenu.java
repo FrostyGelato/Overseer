@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.github.lgooddatepicker.components.DateTimePicker;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -18,8 +21,13 @@ public class ModifyMenu extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
+	
+	TaskManager taskManager = new TaskManager();
 
 	public ModifyMenu(MainMenu parentJFrame, int arrayIndex) {
+		
+		taskManager.getTaskData(arrayIndex);
+		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -50,6 +58,13 @@ public class ModifyMenu extends JDialog {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_2.setBounds(12, 109, 76, 16);
 		contentPanel.add(lblNewLabel_2);
+		
+		DateTimePicker deadlinePicker = new DateTimePicker();
+		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
+		deadlinePicker.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
+		deadlinePicker.setBounds(90, 101, 300, 34);
+		contentPanel.add(deadlinePicker);
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

@@ -20,13 +20,11 @@ import javax.swing.JSpinner;
 public class ModifyMenu extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField nameField;
 	
 	TaskManager taskManager = new TaskManager();
 
 	public ModifyMenu(MainMenu parentJFrame, int arrayIndex) {
-		
-		taskManager.getTaskData(arrayIndex);
 		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -40,19 +38,20 @@ public class ModifyMenu extends JDialog {
 			contentPanel.add(lblNewLabel);
 		}
 		
-		textField = new JTextField();
-		textField.setBounds(70, 8, 197, 28);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+		nameField = new JTextField();
+		nameField.setBounds(70, 8, 197, 28);
+		nameField.setText(taskManager.getTaskName(arrayIndex));
+		contentPanel.add(nameField);
+		nameField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Time Required:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_1.setBounds(12, 59, 115, 20);
 		contentPanel.add(lblNewLabel_1);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(139, 56, 76, 28);
-		contentPanel.add(spinner);
+		JSpinner timeRequiredSpinner = new JSpinner();
+		timeRequiredSpinner.setBounds(139, 56, 76, 28);
+		contentPanel.add(timeRequiredSpinner);
 		
 		JLabel lblNewLabel_2 = new JLabel("Deadline:");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));

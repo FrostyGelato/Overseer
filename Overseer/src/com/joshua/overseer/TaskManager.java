@@ -9,7 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-//import org.json.*;
+
 public class TaskManager {
 	
 	JSONArray taskArray = new JSONArray();
@@ -56,10 +56,13 @@ public class TaskManager {
 		}
 	}
 	
-	public void getTaskData(int arrayIndex) {
+	public String getTaskName(int arrayIndex) {
+		String taskName = "";
 		if (arrayIndex >= 0) {
-			//taskArray.getJSONObject(arrayIndex);
+			JSONObject taskToModify = (JSONObject) taskArray.get(arrayIndex);
+			taskName = taskToModify.get("name").toString();
 		}
+		return taskName;
 	}
 
 }

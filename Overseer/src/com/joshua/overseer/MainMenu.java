@@ -87,7 +87,7 @@ public class MainMenu extends JFrame {
 		settingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Settings settings = new Settings();
+					Settings settings = new Settings(thisFrame);
 					settings.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					settings.setVisible(true);
 					settings.setTitle("Settings");

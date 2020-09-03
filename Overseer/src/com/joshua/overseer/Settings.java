@@ -29,7 +29,7 @@ public class Settings extends JDialog {
 	int breakSpinnerValue;
 	int workSpinnerValue;
 
-	public Settings() throws IOException {
+	public Settings(MainMenu parentFrame) throws IOException {
 		
 		ConfigManager configManager = new ConfigManager();
 		
@@ -163,6 +163,7 @@ public class Settings extends JDialog {
 						} catch (IOException saveError) {
 							saveError.printStackTrace();
 						}
+						parentFrame.refreshSchedule();
 						
 						dispose();
 					}

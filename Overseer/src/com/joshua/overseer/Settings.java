@@ -38,34 +38,17 @@ public class Settings extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
-			JLabel lblNewLabel = new JLabel("Break time length:");
-			lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-			lblNewLabel.setBounds(12, 155, 134, 19);
-			contentPanel.add(lblNewLabel);
-		}
-		{
-			//sets minimum and maximum values
-			int min = 1;
-			int max = 60;
-			int step = 1;
-			int i = configManager.getBreakTimeLength();
-			SpinnerModel breakValue = new SpinnerNumberModel(i, min, max, step);
-			JSpinner breakSpinner = new JSpinner(breakValue);
-			breakSpinner.setBounds(158, 154, 45, 22);
-			breakSpinner.addPropertyChangeListener(new PropertyChangeListener() {
-				public void propertyChange(PropertyChangeEvent arg0) {
-					breakSpinnerValue = (Integer) breakSpinner.getValue();
-				}
-			});
-			contentPanel.add(breakSpinner);
-		}
-		{
-			JLabel lblNewLabel_1 = new JLabel("minutes");
-			lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
-			lblNewLabel_1.setBounds(215, 156, 63, 17);
-			contentPanel.add(lblNewLabel_1);
-		}
+		
+		// the labels
+		JLabel lblNewLabel = new JLabel("Break time length:");
+		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel.setBounds(12, 155, 134, 19);
+		contentPanel.add(lblNewLabel);
+			
+		JLabel lblNewLabel_1 = new JLabel("minutes");
+		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(215, 156, 63, 17);
+		contentPanel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Allocated Time:");
 		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -82,22 +65,33 @@ public class Settings extends JDialog {
 		lblNewLabel_4.setBounds(12, 79, 45, 16);
 		contentPanel.add(lblNewLabel_4);
 		
-		JSpinner startTimeSpinner = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor startTimeEditor = new JSpinner.DateEditor(startTimeSpinner, "HH:mm");
-		startTimeSpinner.setEditor(startTimeEditor);
-		SimpleDateFormat startTime = new SimpleDateFormat("HH:mm");
-		try {
-			startTimeSpinner.setValue(startTime.parseObject("9:00"));
-		} catch (ParseException startTimeError) {
-			startTimeError.printStackTrace();
-		}
-		startTimeSpinner.setBounds(66, 45, 60, 22);
-		contentPanel.add(startTimeSpinner, "HH:mm");
-		
 		JLabel lblNewLabel_6 = new JLabel("Work Time Length:");
 		lblNewLabel_6.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_6.setBounds(12, 123, 134, 19);
 		contentPanel.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("minutes");
+		lblNewLabel_7.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_7.setBounds(216, 124, 63, 16);
+		contentPanel.add(lblNewLabel_7);
+		
+		//break time spinner
+		{
+		//sets minimum and maximum values
+			int min = 1;
+			int max = 60;
+			int step = 1;
+			int i = configManager.getBreakTimeLength();
+			SpinnerModel breakValue = new SpinnerNumberModel(i, min, max, step);
+			JSpinner breakSpinner = new JSpinner(breakValue);
+			breakSpinner.setBounds(158, 154, 45, 22);
+			breakSpinner.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent arg0) {
+					breakSpinnerValue = (Integer) breakSpinner.getValue();
+				}
+			});
+			contentPanel.add(breakSpinner);
+		}
 		
 		int min = 1;
 		int max = 60;
@@ -113,23 +107,32 @@ public class Settings extends JDialog {
 		workSpinner.setBounds(159, 122, 45, 22);
 		contentPanel.add(workSpinner);
 		
-		JLabel lblNewLabel_7 = new JLabel("minutes");
-		lblNewLabel_7.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_7.setBounds(216, 124, 63, 16);
-		contentPanel.add(lblNewLabel_7);
+		//spinners for allocated work time
+		JSpinner startTimeSpinner = new JSpinner(new SpinnerDateModel());
+		JSpinner.DateEditor startTimeEditor = new JSpinner.DateEditor(startTimeSpinner, "HH:mm");
+		startTimeSpinner.setEditor(startTimeEditor);
+		SimpleDateFormat startTime = new SimpleDateFormat("HH:mm");
+		try {
+			startTimeSpinner.setValue(startTime.parseObject(configManager.getStartTime()));
+		} catch (ParseException startTimeError) {
+			startTimeError.printStackTrace();
+		}
+		startTimeSpinner.setBounds(66, 45, 60, 22);
+		contentPanel.add(startTimeSpinner, "HH:mm");
 		
 		JSpinner endTimeSpinner = new JSpinner(new SpinnerDateModel());
 		JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(endTimeSpinner, "HH:mm");
 		endTimeSpinner.setEditor(endTimeEditor);
 		SimpleDateFormat endTime = new SimpleDateFormat("HH:mm");
 		try {
-			endTimeSpinner.setValue(endTime.parseObject("18:00"));
+			endTimeSpinner.setValue(endTime.parseObject(configManager.getEndTime()));
 		} catch (ParseException endTimeError) {
 			endTimeError.printStackTrace();
 		}
 		endTimeSpinner.setBounds(66, 77, 60, 22);
 		contentPanel.add(endTimeSpinner);
 		
+		//the buttons
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

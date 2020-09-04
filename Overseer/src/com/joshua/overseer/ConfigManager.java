@@ -50,6 +50,14 @@ public class ConfigManager {
 		return Integer.parseInt(appConfig.getProperty("workTimeLength"));
 	}
 	
+	public String getStartTime() {
+		return appConfig.getProperty("startTime").toString();
+	}
+	
+	public String getEndTime() {
+		return appConfig.getProperty("endTime").toString();
+	}
+	
 	//gets all the user-set values from components
 	public void saveData(int breakLength, int workLength, LocalTime startTime, LocalTime endTime) {
 		String breakLengthString = Integer.toString(breakLength);

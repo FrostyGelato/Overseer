@@ -21,7 +21,7 @@ public class TaskManager {
 		JSONParser parser = new JSONParser();
     
         try {
-			taskArray = (JSONArray) parser.parse(new FileReader(taskPath));
+			taskArray = (JSONArray) parser.parse(new FileReader(taskPath)); //parse tasks.json file and load the array data
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}

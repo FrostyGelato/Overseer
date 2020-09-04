@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.xml.transform.Templates;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

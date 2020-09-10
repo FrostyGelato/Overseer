@@ -142,7 +142,7 @@ public class MainMenu extends JFrame {
 			e.printStackTrace();
 		}
 		
-        for (Object arrayTask:taskArray)
+        for (Object arrayTask: taskArray)
         {
           JSONObject jsonTask = (JSONObject) arrayTask;
           String name = (String) jsonTask.get("name");

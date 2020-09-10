@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,7 +39,7 @@ public class TaskManager {
 		}
 	}
 	
-	public void addTask(String name, Object timeRequired, Object deadline) {
+	public void addTask(String name, Object timeRequired, LocalDateTime deadline) {
 		task = new JSONObject();
 		task.put("name", name);
 		//colons in time makes JSON invalid
@@ -47,6 +49,14 @@ public class TaskManager {
 		taskArray.add(task);
 		
 		writeToDisk();
+		
+		// Temp
+		LocalDate deadlineDate = deadline.toLocalDate();
+		try {
+			Scheduler scheduler = new Scheduler(deadlineDate);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteTask(int arrayIndex) {

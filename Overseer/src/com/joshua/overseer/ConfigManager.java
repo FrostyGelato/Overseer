@@ -54,6 +54,10 @@ public class ConfigManager {
 		return Integer.parseInt(appConfig.getProperty("workTimeLength"));
 	}
 	
+	public int getCombinedTimeLength() {
+		return getBreakTimeLength() + getWorkTimeLength();
+	}
+	
 	public String getStartTime() {
 		return appConfig.getProperty("startTime").toString();
 	}

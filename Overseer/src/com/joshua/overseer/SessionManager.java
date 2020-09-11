@@ -35,6 +35,7 @@ public class SessionManager {
 		for (Session session: sessions) {
 			JSONObject sessionPeriod = new JSONObject();
 			
+			sessionPeriod.put("name", session.name);
 			sessionPeriod.put("startTime", session.startTime);
 			sessionPeriod.put("endTime", session.endTime);
 			

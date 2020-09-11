@@ -67,7 +67,7 @@ public class AddMenu extends JDialog {
 		timeSpinner.setEditor(timeEditor);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 		try {
-			timeSpinner.setValue(time.parseObject("10:00"));
+			timeSpinner.setValue(time.parseObject("2:00"));
 		} catch (ParseException timeError) {
 			timeError.printStackTrace();
 		}

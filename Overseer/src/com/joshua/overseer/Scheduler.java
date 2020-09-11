@@ -1,11 +1,8 @@
 package com.joshua.overseer;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
-
 import javax.swing.JOptionPane;
 
 public class Scheduler {
@@ -35,34 +32,46 @@ public class Scheduler {
 		int minutesRequired = timeRequired.getMinute();
 		Integer durationRequiredInMinutes = (int) hoursRequired.toMinutes() + minutesRequired;
 		
+		Float numberOfSessionsWithDecimal = (float) durationRequiredInMinutes / (float) workMinutes;
+		Integer numberOfSessions = (int) Math.ceil(numberOfSessionsWithDecimal);
+		
+		// number of work sessions should equal number of breaks
+	    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + breakMinutes * numberOfSessions;
+	    
+	    Duration remainderOfWork = Duration.between(currentTime, workEndTime);
+	    Integer remainderOfWorkMin = (int) remainderOfWork.toMinutes();
+		
 		// if task is due tomorrow
 		if (deadline == tomorrow) {
-		    
-			Float numberOfBreaksWithDecimal = (float) durationRequiredInMinutes/ (float) workMinutes;
-			Integer numberOfBreaks = (int) Math.ceil(numberOfBreaksWithDecimal);
-		    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + breakMinutes * numberOfBreaks;
-		    
-		    Integer numberOfPeriods = durationRequiredInMinutes/workMinutes;
-		    
-		    Duration remainderOfWork = Duration.between(currentTime, workEndTime);
-		    Integer remainderOfWorkMin = (int) remainderOfWork.toMinutes();
 		    
 		    if (currentTime.isAfter(enoughTimeForOneSession) || durationRequiredWithBreakInBetween > remainderOfWorkMin) {
 		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
 		    }
-		    
-		    Session[] sessions = new Session[numberOfPeriods];
-		    Integer i = 0;
-		    if (remainingDuration > 0) {
-		    	Session newSession = new Session(name, start, end);
-		    	sessions[i] = newSession;
-		    	i++;
-		    }
-		    
-			//SessionManager sessionManager = new SessionManager();
-			//sessionManager.addSessions(sessions);
+		    // the above code is finished for now
+		}
+		
+		// create array
+	    Session[] sessions = new Session[numberOfSessions];
+	    
+	    Integer sessionNumber = 0;
+	    
+	    while (remainderOfWorkMin > combinedMinutes) {
+	    	
+	    	LocalTime sessionStartTime = currentTime.plusMinutes(combinedMinutes * sessionNumber);
+	    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(workMinutes);
+	    	
+	    	Session newSession = new Session(name, sessionStartTime, sessionEndTime, today);
+	    	
+	    	sessions[sessionNumber] = newSession;
+	    	
+	    	sessionNumber++;
+	    	remainderOfWorkMin = remainderOfWorkMin - (sessionNumber * combinedMinutes);
+	    }
+	    
+	    SessionManager sessionManager = new SessionManager();
+	    sessionManager.addSessions(sessions);
 			
-		}/* else if (currentTime.isBefore(endTimeWithWork)) {
+		/*} else if (currentTime.isBefore(endTimeWithWork)) {
 			
 		    Period period = Period.between(currentDate, deadline);
 		    int difference = period.getDays();

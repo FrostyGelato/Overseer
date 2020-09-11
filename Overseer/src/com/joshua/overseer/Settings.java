@@ -166,7 +166,7 @@ public class Settings extends JDialog {
 						} catch (IOException saveError) {
 							saveError.printStackTrace();
 						}
-						parentFrame.refreshSchedule();
+						parentFrame.checkAndRefreshSchedule();
 						
 						dispose();
 					}

@@ -156,6 +156,12 @@ public class MainMenu extends JFrame {
 		}
 	}
 	
+	public void checkAndRefreshSchedule() {
+		if (new File(sessionPath).isFile() == true) {
+			refreshSchedule();
+		}
+	}
+	
 	public void refreshSchedule() {
 		model.clear();
 		

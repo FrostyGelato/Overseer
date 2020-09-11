@@ -51,25 +51,25 @@ public class Scheduler {
 		}
 		
 		// create array
-	    Session[] sessions = new Session[numberOfSessions];
+	    Session[] sessionArray = new Session[numberOfSessions];
 	    
 	    Integer sessionNumber = 0;
 	    
-	    while (remainderOfWorkMin > combinedMinutes) {
-	    	
+	    //while (remainderOfWorkMin > combinedMinutes && remainderOfWork.toMinutes() > 0) {
+	    for (int i = 0; i < 2; i++) {
 	    	LocalTime sessionStartTime = currentTime.plusMinutes(combinedMinutes * sessionNumber);
 	    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(workMinutes);
 	    	
 	    	Session newSession = new Session(name, sessionStartTime, sessionEndTime, today);
 	    	
-	    	sessions[sessionNumber] = newSession;
+	    	sessionArray[sessionNumber] = newSession;
 	    	
 	    	sessionNumber++;
 	    	remainderOfWorkMin = remainderOfWorkMin - (sessionNumber * combinedMinutes);
 	    }
-	    
+
 	    SessionManager sessionManager = new SessionManager();
-	    sessionManager.addSessions(sessions);
+	    sessionManager.addSessions(sessionArray);
 			
 		/*} else if (currentTime.isBefore(endTimeWithWork)) {
 			

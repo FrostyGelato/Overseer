@@ -67,7 +67,7 @@ public class AddMenu extends JDialog {
 		timeSpinner.setEditor(timeEditor);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 		try {
-			timeSpinner.setValue(time.parseObject("2:00"));
+			timeSpinner.setValue(time.parseObject("1:00"));
 		} catch (ParseException timeError) {
 			timeError.printStackTrace();
 		}
@@ -104,7 +104,7 @@ public class AddMenu extends JDialog {
 						// localTime is automatically set to midnight if not chosen
 						taskManager.addTask(taskName.getText(), length, deadlinePicker.getDateTimePermissive());
 						// refreshes schedule in parent JFrame
-						parentJFrame.refreshSchedule();
+						parentJFrame.checkAndRefreshSchedule();
 						dispose();
 					}
 				});

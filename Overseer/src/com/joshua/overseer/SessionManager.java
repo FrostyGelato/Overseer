@@ -13,7 +13,8 @@ import org.json.simple.parser.ParseException;
 public class SessionManager {
 	
 	JSONArray sessionArray = new JSONArray();
-	JSONObject session = new JSONObject();
+	JSONObject sessionPeriod = new JSONObject();
+	String sessionName;
 	
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 
@@ -21,24 +22,32 @@ public class SessionManager {
 		
 		JSONParser parser = new JSONParser();
 	    
-        try {
-        	//parse session.json file and load the array data
-			sessionArray = (JSONArray) parser.parse(new FileReader(sessionPath));
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
+		if (new File(sessionPath).isFile() == true) {
+			try {
+	        	//parse session.json file and load the array data
+				sessionArray = (JSONArray) parser.parse(new FileReader(sessionPath));
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
 	
 	public void addSessions(Session[] sessions) {
 		
-		for (Session session: sessions) {
-			JSONObject sessionPeriod = new JSONObject();
+		for (Session i: sessions) {
+			sessionPeriod = new JSONObject();
 			
-			sessionPeriod.put("name", session.name);
-			sessionPeriod.put("startTime", session.startTime);
-			sessionPeriod.put("endTime", session.endTime);
-			sessionPeriod.put("date", session.date);
+			sessionName = i.name;
+			
+			System.out.println(sessionName);
+			
+			sessionPeriod.put("name", sessionName);
+			
+			System.out.println(i.startTime);
+			sessionPeriod.put("startTime", i.startTime);
+			sessionPeriod.put("endTime", i.endTime);
+			sessionPeriod.put("date", i.date);
 			
 			sessionArray.add(sessionPeriod);
 		}

@@ -10,11 +10,11 @@ public class Session {
 	LocalTime endTime;
 	LocalDate date;
 	
-	public Session(String taskName, LocalTime start, LocalTime end, LocalDate date) {
+	public Session(String taskName, LocalTime start, LocalTime end, LocalDate taskDate) {
 		name = taskName;
 		startTime = start;
 		endTime = end;
-		this.date = date;
+		date = taskDate;
 	}
 
 }

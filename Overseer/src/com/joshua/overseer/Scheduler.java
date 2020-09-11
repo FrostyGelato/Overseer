@@ -11,48 +11,53 @@ import javax.swing.JOptionPane;
 public class Scheduler {
 
 	public Scheduler(String name, LocalDate deadline, LocalTime timeRequired) {
+		
+		// needed to fetch settings
 		ConfigManager configManager = new ConfigManager();
 		
+		// get current date and time
 		LocalTime currentTime = LocalTime.now();
-		LocalDate currentDate = LocalDate.now();
+		LocalDate today = LocalDate.now();
+		LocalDate tomorrow = today.plusDays(1);
 		
-		Integer workMinutes = configManager.getWorkTimeLength();
-		LocalTime workPeriod = LocalTime.of(0, workMinutes);
-		
-		Integer breakMinutes = configManager.getBreakTimeLength();
-		
+		// fetch setting data
 		Integer combinedMinutes = configManager.getCombinedTimeLength();
+		Integer breakMinutes = configManager.getBreakTimeLength();
+		Integer workMinutes = configManager.getWorkTimeLength();
 		
-		LocalTime startTime = LocalTime.parse(configManager.getStartTime());
-		LocalTime endTime = LocalTime.parse(configManager.getEndTime());
-		LocalTime endTimeWithWork = endTime.minusMinutes(workMinutes);
+		// fetch more setting data
+		LocalTime workStartTime = LocalTime.parse(configManager.getStartTime());
+		LocalTime workEndTime = LocalTime.parse(configManager.getEndTime());
+		LocalTime enoughTimeForOneSession = workEndTime.minusMinutes(workMinutes);
+		
+		// convert LocalTime to Duration
+		Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
+		int minutesRequired = timeRequired.getMinute();
+		Integer durationRequiredInMinutes = (int) hoursRequired.toMinutes() + minutesRequired;
 		
 		// if task is due tomorrow
-		if (deadline == currentDate.plusDays(1) || currentTime.isBefore(endTimeWithWork)) {
-			
-			int minutesRequired = timeRequired.getMinute();
-			Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
-		    Integer durationRequired = (int) hoursRequired.toMinutes() + minutesRequired;
-		    Integer durationRequiredWithBreak = durationRequired + breakMinutes * (durationRequired/combinedMinutes);
+		if (deadline == tomorrow) {
 		    
-		    Integer numberOfPeriods = durationRequired/workMinutes;
+			Float numberOfBreaksWithDecimal = (float) durationRequiredInMinutes/ (float) workMinutes;
+			Integer numberOfBreaks = (int) Math.ceil(numberOfBreaksWithDecimal);
+		    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + breakMinutes * numberOfBreaks;
 		    
-		    Duration remainderOfWork = Duration.between(currentTime, endTime);
+		    Integer numberOfPeriods = durationRequiredInMinutes/workMinutes;
+		    
+		    Duration remainderOfWork = Duration.between(currentTime, workEndTime);
 		    Integer remainderOfWorkMin = (int) remainderOfWork.toMinutes();
 		    
-		    // if durationRequired is greater than the time remaining before work time ends
-		    if (durationRequiredWithBreak > remainderOfWorkMin) {
-		    // print not enough time, please ask for deadline
+		    if (currentTime.isAfter(enoughTimeForOneSession) || durationRequiredWithBreakInBetween > remainderOfWorkMin) {
 		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
 		    }
 		    
 		    Session[] sessions = new Session[numberOfPeriods];
 		    Integer i = 0;
-		    /*if (remainingDuration > 0) {
+		    if (remainingDuration > 0) {
 		    	Session newSession = new Session(name, start, end);
 		    	sessions[i] = newSession;
 		    	i++;
-		    }*/
+		    }
 		    
 			//SessionManager sessionManager = new SessionManager();
 			//sessionManager.addSessions(sessions);

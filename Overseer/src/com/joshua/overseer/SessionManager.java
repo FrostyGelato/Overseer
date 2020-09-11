@@ -38,6 +38,7 @@ public class SessionManager {
 			sessionPeriod.put("name", session.name);
 			sessionPeriod.put("startTime", session.startTime);
 			sessionPeriod.put("endTime", session.endTime);
+			sessionPeriod.put("date", session.date);
 			
 			sessionArray.add(sessionPeriod);
 		}

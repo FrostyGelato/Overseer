@@ -29,7 +29,7 @@ public class MainMenu extends JFrame {
 	DefaultListModel<Task> model = new DefaultListModel<>();
 	JList<Task> taskJList = new JList<>(model);
 	
-	String taskPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "tasks.json";
+	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 	MainMenu thisFrame = this;
 
 	public MainMenu() {
@@ -107,14 +107,14 @@ public class MainMenu extends JFrame {
 		lblNewLabel.setBounds(140, 340, 128, 30);
 		contentPane.add(lblNewLabel);
 		
-		if (new File(taskPath).isFile() == false) {
+		if (new File(sessionPath).isFile() == false) {
 			modifyTask.setEnabled(false);
 			deleteTask.setEnabled(false);
 		}
 	}
 	
 	public void checkAndLoadSchedule() {
-		if (new File(taskPath).isFile() == true) {
+		if (new File(sessionPath).isFile() == true) {
 			
 			loadData();
 		
@@ -133,20 +133,24 @@ public class MainMenu extends JFrame {
 	}
 	
 	public void loadData() {
-		JSONArray taskArray = new JSONArray();
+		
 		JSONParser parser = new JSONParser();
 		
+		JSONArray sessionArray = new JSONArray();
+		
 		try {
-			taskArray = (JSONArray) parser.parse(new FileReader(taskPath));
+			sessionArray = (JSONArray) parser.parse(new FileReader(sessionPath));
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		
-        for (Object arrayTask: taskArray)
+        for (Object session: sessionArray)
         {
-          JSONObject jsonTask = (JSONObject) arrayTask;
+          JSONObject jsonTask = (JSONObject) session;
           String name = (String) jsonTask.get("name");
-          String time = (String) jsonTask.get("timeRequired");
+          String startTime = (String) jsonTask.get("startTime");
+          String endTime = (String) jsonTask.get("endTime");
+          String time = startTime + " - " + endTime;
           Task taskEvent = new Task(name, time);
           model.addElement(taskEvent);
         }

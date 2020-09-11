@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class Scheduler {
 
-	public Scheduler(LocalDate deadline, LocalTime timeRequired) {
+	public Scheduler(String name, LocalDate deadline, LocalTime timeRequired) {
 		ConfigManager configManager = new ConfigManager();
 		
 		LocalTime currentTime = LocalTime.now();

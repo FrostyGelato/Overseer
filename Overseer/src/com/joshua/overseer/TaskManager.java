@@ -41,7 +41,7 @@ public class TaskManager {
 		
 		taskArray.add(task);
 		
-		Scheduler scheduler = new Scheduler(deadline.toLocalDate(), timeRequired);
+		Scheduler scheduler = new Scheduler(name, deadline.toLocalDate(), timeRequired);
 		
 		writeToDisk();
 	}

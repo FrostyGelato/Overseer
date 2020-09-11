@@ -8,7 +8,7 @@ import java.time.Period;
 
 public class Scheduler {
 
-	public Scheduler(LocalDate deadline, LocalTime timeRequired) throws IOException {
+	public Scheduler(LocalDate deadline, LocalTime timeRequired) {
 		ConfigManager configManager = new ConfigManager();
 		
 		LocalTime currentTime = LocalTime.now();
@@ -17,20 +17,28 @@ public class Scheduler {
 		Integer workMinutes = configManager.getWorkTimeLength();
 		LocalTime workPeriod = LocalTime.of(0, workMinutes);
 		
+		LocalTime startTime = LocalTime.parse(configManager.getStartTime());
 		LocalTime endTime = LocalTime.parse(configManager.getEndTime());
 		LocalTime endTimeWithWork = endTime.minusMinutes(workMinutes);
 		
 		// if task is due tomorrow
-		if (deadline == currentDate.plusDays(1)) {
+		if (deadline == currentDate.plusDays(1) || currentTime.isBefore(endTimeWithWork)) {
 			
+			int minutesRequired = timeRequired.getMinute();
+			Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
+		    Integer durationRequired = (int) hoursRequired.toMinutes() + minutesRequired;
+		    
+		    Integer numberOfPeriods = durationRequired/workMinutes;
+		    
+			Session session = new Session(start, end)
 			
 		} else if (currentTime.isBefore(endTimeWithWork)) {
 			
 		    Period period = Period.between(currentDate, deadline);
 		    int difference = period.getDays();
 		    
-		    Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
 		    int minutesRequired = timeRequired.getMinute();
+		    Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
 		    Integer durationRequired = (int) hoursRequired.toMinutes() + minutesRequired;
 		    
 		    Integer numberOfPeriods = durationRequired/workMinutes;

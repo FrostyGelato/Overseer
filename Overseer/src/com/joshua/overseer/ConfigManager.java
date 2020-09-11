@@ -14,23 +14,27 @@ public class ConfigManager {
 	String defaultConfigPath = "src/default.properties";
 	
 	//loads properties
-	public ConfigManager() throws IOException {
-		
-		//loads default configuration from storage
-		Properties defaultConfig = new Properties();
-		FileInputStream in = new FileInputStream(defaultConfigPath);
-		defaultConfig.load(in);
-		in.close();
-		
-		//use default configuration to create custom config
-		appConfig = new Properties(defaultConfig);
-		
-		//checks if previous user-set configuration is available
-		if (new File(configPath).isFile() == true) {
-			in = new FileInputStream(configPath);
-			appConfig.load(in);
+	public ConfigManager() {
+		try {
+			//loads default configuration from storage
+			Properties defaultConfig = new Properties();
+			FileInputStream in = new FileInputStream(defaultConfigPath);
+			defaultConfig.load(in);
 			in.close();
+			
+			//use default configuration to create custom config
+			appConfig = new Properties(defaultConfig);
+			
+			//checks if previous user-set configuration is available
+			if (new File(configPath).isFile() == true) {
+				in = new FileInputStream(configPath);
+				appConfig.load(in);
+				in.close();
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+		
 	}
 	
 	//writes data to disk

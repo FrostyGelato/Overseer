@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
 
@@ -33,9 +34,7 @@ public class MainMenu extends JFrame {
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 	MainMenu thisFrame = this;
 	
-	Integer daysToAdd = 0;
-	LocalDate currentDate = LocalDate.now();
-	LocalDate menuDate = currentDate.plusDays(daysToAdd);
+	LocalDate dateShown = LocalDate.now();
 
 	public MainMenu() {
 		
@@ -48,7 +47,7 @@ public class MainMenu extends JFrame {
 		
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
-		
+	
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -112,6 +111,32 @@ public class MainMenu extends JFrame {
 		lblNewLabel.setBounds(140, 340, 128, 30);
 		contentPane.add(lblNewLabel);
 		
+		JLabel lblNewLabel_1 = new JLabel("Date");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(161, 0, 59, 20);
+		contentPane.add(lblNewLabel_1);
+		
+		JButton btnNewButton = new JButton(">");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dateShown = dateShown.plusDays(1);
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton.setBounds(285, -1, 53, 25);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("<");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dateShown = dateShown.minusDays(1);
+			}
+		});
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton_1.setBounds(40, -1, 53, 25);
+		contentPane.add(btnNewButton_1);
+		
 		if (new File(sessionPath).isFile() == false) {
 			modifyTask.setEnabled(false);
 			deleteTask.setEnabled(false);
@@ -153,7 +178,7 @@ public class MainMenu extends JFrame {
         {
           JSONObject jsonTask = (JSONObject) session;
           
-          if (jsonTask.get("date") == menuDate) {
+          if (jsonTask.get("date") == dateShown) {
         	  String name = (String) jsonTask.get("name");
               String startTime = (String) jsonTask.get("startTime");
               String endTime = (String) jsonTask.get("endTime");

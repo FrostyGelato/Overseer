@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
@@ -31,6 +32,10 @@ public class MainMenu extends JFrame {
 	
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 	MainMenu thisFrame = this;
+	
+	Integer daysToAdd = 0;
+	LocalDate currentDate = LocalDate.now();
+	LocalDate menuDate = currentDate.plusDays(daysToAdd);
 
 	public MainMenu() {
 		
@@ -147,12 +152,15 @@ public class MainMenu extends JFrame {
         for (Object session: sessionArray)
         {
           JSONObject jsonTask = (JSONObject) session;
-          String name = (String) jsonTask.get("name");
-          String startTime = (String) jsonTask.get("startTime");
-          String endTime = (String) jsonTask.get("endTime");
-          String time = startTime + " - " + endTime;
-          Task taskEvent = new Task(name, time);
-          model.addElement(taskEvent);
+          
+          if (jsonTask.get("date") == menuDate) {
+        	  String name = (String) jsonTask.get("name");
+              String startTime = (String) jsonTask.get("startTime");
+              String endTime = (String) jsonTask.get("endTime");
+              String time = startTime + " - " + endTime;
+              Task taskEvent = new Task(name, time);
+              model.addElement(taskEvent);
+          }
         }
 	}
 }

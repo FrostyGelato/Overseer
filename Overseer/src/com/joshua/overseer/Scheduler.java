@@ -46,10 +46,18 @@ public class Scheduler {
 		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
 		    }
 		    
+		    Session[] sessions = new Session[numberOfPeriods];
+		    Integer i = 0;
+		    if (remainingDuration > 0) {
+		    	Session newSession = new Session(name, start, end);
+		    	sessions[i] = newSession;
+		    	i++;
+		    }
+		    
 			//SessionManager sessionManager = new SessionManager();
 			//sessionManager.addSessions(sessions);
 			
-		} else if (currentTime.isBefore(endTimeWithWork)) {
+		}/* else if (currentTime.isBefore(endTimeWithWork)) {
 			
 		    Period period = Period.between(currentDate, deadline);
 		    int difference = period.getDays();
@@ -60,7 +68,7 @@ public class Scheduler {
 		    
 		    Integer numberOfPeriods = durationRequired/workMinutes;
 		    Integer days = numberOfPeriods/difference;
-		}
+		}*/
 	}
 
 }

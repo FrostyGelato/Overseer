@@ -31,7 +31,7 @@ public class Notification {
 
             trayIcon.displayMessage(taskName, "Time to get started on this task!", MessageType.INFO);
         } else {
-            System.err.println("Notifications are not supported on your device.");
+            System.err.println("Notifications are not supported on your OS.");
         }
 	}
 

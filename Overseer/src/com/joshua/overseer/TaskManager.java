@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -23,40 +24,39 @@ public class TaskManager {
 		JSONParser parser = new JSONParser();
     
         try {
-			taskArray = (JSONArray) parser.parse(new FileReader(taskPath)); //parse tasks.json file and load the array data
+        	//parse tasks.json file and load the array data
+			taskArray = (JSONArray) parser.parse(new FileReader(taskPath));
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void writeToDisk() {
-		try {
-			FileWriter file = new FileWriter(taskPath);
-			file.write(taskArray.toJSONString());
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void addTask(String name, Object timeRequired, LocalDateTime deadline) {
+	public void addTask(String name, LocalTime timeRequired, LocalDateTime deadline) {
 		task = new JSONObject();
+		JSONArray sessionArray = new JSONArray();
+		
 		task.put("name", name);
 		//colons in time makes JSON invalid
 		task.put("timeRequired", timeRequired.toString());
 		task.put("deadline", deadline.toString());
 		
+		Scheduler scheduler = new Scheduler(deadline.toLocalDate(), timeRequired);
+		
+		Session[] sessions = scheduler.getSessions();
+		
+		for (Session session: sessions) {
+			JSONObject sessionPeriod = new JSONObject();
+			
+			sessionPeriod.put("startTime", session.startTime);
+			sessionPeriod.put("endTime", session.endTime);
+			
+			sessionArray.add(sessionPeriod);
+		}
+		task.put("sessions", sessionArray);
+		
 		taskArray.add(task);
 		
 		writeToDisk();
-		
-		// Temp
-		LocalDate deadlineDate = deadline.toLocalDate();
-		try {
-			Scheduler scheduler = new Scheduler(deadlineDate);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void deleteTask(int arrayIndex) {
@@ -73,6 +73,17 @@ public class TaskManager {
 			taskName = taskToModify.get("name").toString();
 		}
 		return taskName;
+	}
+	
+	//saves data to disk
+	public void writeToDisk() {
+		try {
+			FileWriter file = new FileWriter(taskPath);
+			file.write(taskArray.toJSONString());
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

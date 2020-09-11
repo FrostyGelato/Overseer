@@ -48,11 +48,11 @@ public class Scheduler {
 		    
 		    Session[] sessions = new Session[numberOfPeriods];
 		    Integer i = 0;
-		    if (remainingDuration > 0) {
+		    /*if (remainingDuration > 0) {
 		    	Session newSession = new Session(name, start, end);
 		    	sessions[i] = newSession;
 		    	i++;
-		    }
+		    }*/
 		    
 			//SessionManager sessionManager = new SessionManager();
 			//sessionManager.addSessions(sessions);

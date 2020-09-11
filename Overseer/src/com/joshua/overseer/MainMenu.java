@@ -121,6 +121,7 @@ public class MainMenu extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dateShown = dateShown.plusDays(1);
+				refreshSchedule();
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -131,6 +132,7 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dateShown = dateShown.minusDays(1);
+				refreshSchedule();
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));

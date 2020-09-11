@@ -33,28 +33,15 @@ public class TaskManager {
 	
 	public void addTask(String name, LocalTime timeRequired, LocalDateTime deadline) {
 		task = new JSONObject();
-		JSONArray sessionArray = new JSONArray();
 		
 		task.put("name", name);
 		//colons in time makes JSON invalid
 		task.put("timeRequired", timeRequired.toString());
 		task.put("deadline", deadline.toString());
 		
-		Scheduler scheduler = new Scheduler(deadline.toLocalDate(), timeRequired);
-		
-		Session[] sessions = scheduler.getSessions();
-		
-		for (Session session: sessions) {
-			JSONObject sessionPeriod = new JSONObject();
-			
-			sessionPeriod.put("startTime", session.startTime);
-			sessionPeriod.put("endTime", session.endTime);
-			
-			sessionArray.add(sessionPeriod);
-		}
-		task.put("sessions", sessionArray);
-		
 		taskArray.add(task);
+		
+		Scheduler scheduler = new Scheduler(deadline.toLocalDate(), timeRequired);
 		
 		writeToDisk();
 	}

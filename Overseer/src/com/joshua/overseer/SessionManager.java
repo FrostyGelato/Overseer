@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -38,9 +40,12 @@ public class SessionManager {
 		for (Session i: sessions) {
 			sessionPeriod = new JSONObject();
 			
+			String startTimeWithoutNano = i.startTime.truncatedTo(ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_LOCAL_TIME);
+			String endTimeWithoutNano = i.endTime.truncatedTo(ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_LOCAL_TIME);
+			
 			sessionPeriod.put("name", i.name);
-			sessionPeriod.put("startTime", i.startTime.toString());
-			sessionPeriod.put("endTime", i.endTime.toString());
+			sessionPeriod.put("startTime", startTimeWithoutNano);
+			sessionPeriod.put("endTime", endTimeWithoutNano);
 			sessionPeriod.put("date", i.date.toString());
 			
 			sessionArray.add(sessionPeriod);

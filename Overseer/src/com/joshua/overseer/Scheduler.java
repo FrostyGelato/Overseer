@@ -3,11 +3,16 @@ package com.joshua.overseer;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 import javax.swing.JOptionPane;
 
 public class Scheduler {
 
-	public Scheduler(String name, LocalDate deadline, LocalTime timeRequired) {
+	public Scheduler() {
+		
+	}
+	
+	public void add(String name, LocalDate deadline, LocalTime timeRequired) {
 		
 		// needed to fetch settings
 		ConfigManager configManager = new ConfigManager();
@@ -61,7 +66,7 @@ public class Scheduler {
 	    for (int i = 0; i < 2; i++) {
 	    	LocalTime sessionStartTime = currentTime.plusMinutes(combinedMinutes * sessionNumber);
 	    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(workMinutes);
-	    	
+	    		    	
 	    	newSession = new Session(name, sessionStartTime, sessionEndTime, today);
 	    	
 	    	sessionArray[sessionNumber] = newSession;

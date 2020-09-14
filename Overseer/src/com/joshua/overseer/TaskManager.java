@@ -44,7 +44,8 @@ public class TaskManager {
 		
 		writeToDisk();
 		
-		Scheduler scheduler = new Scheduler(name, deadline.toLocalDate(), timeRequired);
+		Scheduler scheduler = new Scheduler();
+		scheduler.add(name, deadline.toLocalDate(), timeRequired);
 	}
 	
 	public void deleteTask(int arrayIndex) {

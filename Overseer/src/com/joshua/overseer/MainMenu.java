@@ -80,6 +80,7 @@ public class MainMenu extends JFrame {
 				TaskManager taskManager = new TaskManager();
 				
 				taskManager.deleteTask(taskJList.getSelectedIndex());
+				
 				refreshSchedule();
 			}
 		});

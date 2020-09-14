@@ -111,10 +111,10 @@ public class MainMenu extends JFrame {
 		lblNewLabel.setBounds(140, 340, 128, 30);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Date");
+		JLabel lblNewLabel_1 = new JLabel(dateShown.toString());
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(161, 0, 59, 20);
+		lblNewLabel_1.setBounds(95, 0, 192, 20);
 		contentPane.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton(">");
@@ -122,6 +122,7 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dateShown = dateShown.plusDays(1);
 				refreshSchedule();
+				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -133,6 +134,7 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				dateShown = dateShown.minusDays(1);
 				refreshSchedule();
+				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));

@@ -186,7 +186,9 @@ public class MainMenu extends JFrame {
         {
           JSONObject jsonTask = (JSONObject) session;
           
-          if (jsonTask.get("date") == dateShown) {
+          LocalDate taskDate = LocalDate.parse((String) jsonTask.get("date"));
+          
+          if (taskDate.equals(dateShown)) {
         	  String name = (String) jsonTask.get("name");
               String startTime = (String) jsonTask.get("startTime");
               String endTime = (String) jsonTask.get("endTime");

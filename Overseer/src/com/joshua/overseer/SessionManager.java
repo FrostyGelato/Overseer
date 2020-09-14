@@ -38,16 +38,10 @@ public class SessionManager {
 		for (Session i: sessions) {
 			sessionPeriod = new JSONObject();
 			
-			sessionName = i.name;
-			
-			System.out.println(sessionName);
-			
-			sessionPeriod.put("name", sessionName);
-			
-			System.out.println(i.startTime);
-			sessionPeriod.put("startTime", i.startTime);
-			sessionPeriod.put("endTime", i.endTime);
-			sessionPeriod.put("date", i.date);
+			sessionPeriod.put("name", i.name);
+			sessionPeriod.put("startTime", i.startTime.toString());
+			sessionPeriod.put("endTime", i.endTime.toString());
+			sessionPeriod.put("date", i.date.toString());
 			
 			sessionArray.add(sessionPeriod);
 		}

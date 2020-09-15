@@ -75,7 +75,11 @@ public class AddMenu extends JDialog {
 		timeSpinner.setBounds(151, 53, 73, 25);
 		contentPanel.add(timeSpinner);
 		
-		DateTimePicker deadlinePicker = new DateTimePicker();
+		DatePickerSettings dateSettings = new DatePickerSettings();
+        TimePickerSettings timeSettings = new TimePickerSettings();
+        dateSettings.setAllowEmptyDates(false);
+        timeSettings.setAllowEmptyTimes(false);
+		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
 		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		deadlinePicker.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		deadlinePicker.setBounds(102, 101, 300, 34);

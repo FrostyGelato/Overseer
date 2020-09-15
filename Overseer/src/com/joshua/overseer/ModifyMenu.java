@@ -8,7 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -71,7 +73,11 @@ public class ModifyMenu extends JDialog {
 		lblNewLabel_2.setBounds(12, 109, 76, 16);
 		contentPanel.add(lblNewLabel_2);
 		
-		DateTimePicker deadlinePicker = new DateTimePicker();
+		DatePickerSettings dateSettings = new DatePickerSettings();
+        TimePickerSettings timeSettings = new TimePickerSettings();
+        dateSettings.setAllowEmptyDates(false);
+        timeSettings.setAllowEmptyTimes(false);
+		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
 		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		deadlinePicker.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		deadlinePicker.setBounds(90, 101, 300, 34);

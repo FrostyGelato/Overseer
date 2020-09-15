@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,6 +18,8 @@ public class TaskManager {
 	
 	JSONArray taskArray = new JSONArray();
 	JSONObject task = new JSONObject();
+	
+	Scheduler scheduler = new Scheduler();
 	
 	String taskPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "tasks.json";
 	
@@ -44,15 +47,31 @@ public class TaskManager {
 		
 		writeToDisk();
 		
-		Scheduler scheduler = new Scheduler();
 		scheduler.add(name, deadline.toLocalDate(), timeRequired);
 	}
 	
-	public void deleteTask(int arrayIndex) {
-		if (arrayIndex >= 0) {
-			taskArray.remove(arrayIndex);
-			writeToDisk();
+	public void deleteTask(String taskName) {
+		
+		JSONArray newTaskArray = new JSONArray();     
+		
+		if (taskArray != null) {
+			
+		   for (int i=0; i<taskArray.size(); i++){
+			   
+			   JSONObject taskObject = (JSONObject) taskArray.get(i);
+			   
+		        if (!taskName.equals(taskObject.get("name"))) {
+		        	
+		            newTaskArray.add(taskArray.get(i));
+		        }
+		   } 
 		}
+		
+		taskArray = newTaskArray;
+		
+		writeToDisk();
+		
+		scheduler.recompute();
 	}
 	
 	public String getTaskName(int arrayIndex) {

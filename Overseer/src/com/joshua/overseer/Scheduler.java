@@ -12,6 +12,10 @@ public class Scheduler {
 		
 	}
 	
+	public void recompute() {
+		
+	}
+	
 	public void add(String name, LocalDate deadline, LocalTime timeRequired) {
 		
 		// needed to fetch settings

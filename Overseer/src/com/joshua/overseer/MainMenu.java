@@ -79,7 +79,7 @@ public class MainMenu extends JFrame {
 				//loads tasks from disk so they can be deleted
 				TaskManager taskManager = new TaskManager();
 				
-				taskManager.deleteTask(taskJList.getSelectedIndex());
+				taskManager.deleteTask(taskJList.getSelectedValue().name);
 				
 				refreshSchedule();
 			}

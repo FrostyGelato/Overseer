@@ -20,7 +20,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Timer;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -155,6 +159,8 @@ public class MainMenu extends JFrame {
 			modifyTask.setEnabled(false);
 			deleteTask.setEnabled(false);
 		}
+		
+		loadTimer();
 	}
 	
 	public void checkAndLoadSchedule() {
@@ -209,5 +215,21 @@ public class MainMenu extends JFrame {
               model.addElement(taskEvent);
           }
         }
+	}
+	
+	public void loadTimer() {
+		
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			Date date = dateFormatter.parse("2020-09-15 15:47:00");
+			
+			Timer timer = new Timer();
+			
+			timer.schedule(new MyTimeTask(), date);
+			
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
 	}
 }

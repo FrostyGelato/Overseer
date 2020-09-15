@@ -51,12 +51,13 @@ public class TaskManager {
 	}
 	
 	public void deleteTask(String taskName) {
+		// finished
 		
 		JSONArray newTaskArray = new JSONArray();     
 		
 		if (taskArray != null) {
 			
-		   for (int i=0; i<taskArray.size(); i++){
+		   for (int i=0; i<taskArray.size(); i++) {
 			   
 			   JSONObject taskObject = (JSONObject) taskArray.get(i);
 			   
@@ -74,13 +75,22 @@ public class TaskManager {
 		scheduler.recompute();
 	}
 	
-	public String getTaskName(int arrayIndex) {
-		String taskName = "";
-		if (arrayIndex >= 0) {
-			JSONObject taskToModify = (JSONObject) taskArray.get(arrayIndex);
-			taskName = taskToModify.get("name").toString();
+	public String getTimeRequired(String taskName) {
+		// used by ModifyMenu
+		
+		String timeRequired = "";
+		
+		if (taskArray != null) {
+			for (int i=0; i<taskArray.size(); i++) {
+				JSONObject taskObject = (JSONObject) taskArray.get(i);
+				
+				if (taskName.equals(taskObject.get("name"))) {
+					timeRequired = (String) taskObject.get("timeRequired");
+				}
+			}
 		}
-		return taskName;
+		
+		return timeRequired;
 	}
 	
 	//saves data to disk
@@ -93,6 +103,15 @@ public class TaskManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/*public String getTaskName(int arrayIndex) {
+	String taskName = "";
+	if (arrayIndex >= 0) {
+		JSONObject taskToModify = (JSONObject) taskArray.get(arrayIndex);
+		taskName = taskToModify.get("name").toString();
+	}
+	return taskName;
+	}*/
 
 }
 

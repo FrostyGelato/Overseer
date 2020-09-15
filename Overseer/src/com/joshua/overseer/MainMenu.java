@@ -63,7 +63,7 @@ public class MainMenu extends JFrame {
 		JButton modifyTask = new JButton("Modify");
 		modifyTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				 ModifyMenu modifyTask = new ModifyMenu(thisFrame, taskJList.getSelectedIndex());
+				 ModifyMenu modifyTask = new ModifyMenu(thisFrame, taskJList.getSelectedValue().name);
 				 modifyTask.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				 modifyTask.setTitle("Modify Task");
 				 modifyTask.setVisible(true);

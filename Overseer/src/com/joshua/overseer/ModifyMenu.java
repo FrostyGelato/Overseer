@@ -11,10 +11,13 @@ import javax.swing.border.EmptyBorder;
 import com.github.lgooddatepicker.components.DateTimePicker;
 
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.JSpinner;
 
 public class ModifyMenu extends JDialog {
@@ -24,7 +27,7 @@ public class ModifyMenu extends JDialog {
 	
 	TaskManager taskManager = new TaskManager();
 
-	public ModifyMenu(MainMenu parentJFrame, int arrayIndex) {
+	public ModifyMenu(MainMenu parentJFrame, String taskName) {
 		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -40,7 +43,7 @@ public class ModifyMenu extends JDialog {
 		
 		nameField = new JTextField();
 		nameField.setBounds(70, 8, 197, 28);
-		nameField.setText(taskManager.getTaskName(arrayIndex));
+		nameField.setText(taskName);
 		contentPanel.add(nameField);
 		nameField.setColumns(10);
 		
@@ -49,7 +52,17 @@ public class ModifyMenu extends JDialog {
 		lblNewLabel_1.setBounds(12, 59, 115, 20);
 		contentPanel.add(lblNewLabel_1);
 		
-		JSpinner timeRequiredSpinner = new JSpinner();
+		JSpinner timeRequiredSpinner = new JSpinner(new SpinnerDateModel());
+		timeRequiredSpinner.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeRequiredSpinner, "HH:mm");
+		timeRequiredSpinner.setEditor(timeEditor);
+		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+		try {
+			timeRequiredSpinner.setValue(time.parseObject(taskManager.getTimeRequired(taskName)));
+		} catch (ParseException timeError) {
+			timeError.printStackTrace();
+		}
+		
 		timeRequiredSpinner.setBounds(139, 56, 76, 28);
 		contentPanel.add(timeRequiredSpinner);
 		
@@ -72,7 +85,11 @@ public class ModifyMenu extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						Scheduler scheduler = new Scheduler();
+						scheduler.recompute();
+						
 						parentJFrame.refreshSchedule();
+						
 						dispose();
 					}
 				});

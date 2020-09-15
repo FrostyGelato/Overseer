@@ -6,10 +6,17 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
+import java.util.TimerTask;
 
-public class Notification {
-
+public class Notification extends TimerTask {
+	
+	String name;
+	
 	public Notification(String taskName) {
+		name = taskName;
+	}
+
+	public void newNotification(String taskName) {
 		if (SystemTray.isSupported()) {
 			SystemTray alert = SystemTray.getSystemTray();
 
@@ -33,6 +40,11 @@ public class Notification {
         } else {
             System.err.println("Notifications are not supported on your OS.");
         }
+	}
+	
+	@Override
+	public void run() {
+		newNotification(name);
 	}
 
 }

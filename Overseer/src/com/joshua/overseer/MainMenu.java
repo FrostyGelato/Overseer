@@ -40,6 +40,8 @@ public class MainMenu extends JFrame {
 	MainMenu thisFrame = this;
 	
 	LocalDate dateShown = LocalDate.now();
+	
+	//JSONArray arrayForTimer;
 
 	public MainMenu() {
 		
@@ -215,18 +217,25 @@ public class MainMenu extends JFrame {
               model.addElement(taskEvent);
           }
         }
+        
+        //arrayForTimer = sessionArray;
 	}
 	
 	public void loadTimer() {
 		
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
+		/*for (Object session: arrayForTimer) {
+			JSONObject jsonTask = (JSONObject) session;
+			
+		}*/
+		
 		try {
-			Date date = dateFormatter.parse("2020-09-15 15:47:00");
+			Date date = dateFormatter.parse("2020-09-15 16:18:30");
 			
 			Timer timer = new Timer();
 			
-			timer.schedule(new MyTimeTask(), date);
+			timer.schedule(new Notification("Testing"), date);
 			
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();

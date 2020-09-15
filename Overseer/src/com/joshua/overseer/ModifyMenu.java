@@ -47,6 +47,7 @@ public class ModifyMenu extends JDialog {
 		
 		nameField = new JTextField();
 		nameField.setBounds(70, 8, 197, 28);
+		nameField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		nameField.setText(taskName);
 		contentPanel.add(nameField);
 		nameField.setColumns(10);

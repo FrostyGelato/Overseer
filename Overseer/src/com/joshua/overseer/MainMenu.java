@@ -3,6 +3,7 @@ package com.joshua.overseer;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -68,6 +69,8 @@ public class MainMenu extends JFrame {
 					 modifyTask.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					 modifyTask.setTitle("Modify Task");
 					 modifyTask.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Please select a task before modifying.","No Task Selected", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -79,11 +82,15 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//needed
 				//loads tasks from disk so they can be deleted
-				TaskManager taskManager = new TaskManager();
-				
-				taskManager.deleteTask(taskJList.getSelectedValue().name);
-				
-				refreshSchedule();
+				if (taskJList.getSelectedValue() != null) {
+					TaskManager taskManager = new TaskManager();
+					
+					taskManager.deleteTask(taskJList.getSelectedValue().name);
+					
+					refreshSchedule();
+				} else {
+					JOptionPane.showMessageDialog(null, "Please select a task before deleting.","No Task Selected", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		deleteTask.setBounds(190, 728, 97, 25);

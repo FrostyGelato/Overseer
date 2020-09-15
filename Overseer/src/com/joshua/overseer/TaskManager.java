@@ -50,6 +50,13 @@ public class TaskManager {
 		scheduler.add(name, deadline.toLocalDate(), timeRequired);
 	}
 	
+	public void modifyTask(String name, LocalTime timeRequired, LocalDateTime deadline) {
+		
+		deleteTask(name);
+		
+		addTask(name, timeRequired, deadline);
+	}
+	
 	public void deleteTask(String taskName) {
 		// finished
 		

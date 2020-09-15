@@ -15,6 +15,8 @@ import com.github.lgooddatepicker.components.TimePickerSettings;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -91,6 +93,18 @@ public class ModifyMenu extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						
+						Object obj = timeRequiredSpinner.getValue();
+						LocalTime length = LocalTime.now();
+						if (obj instanceof java.util.Date) {
+						    java.util.Date theDate = (java.util.Date) obj;
+						    java.time.Instant inst = theDate.toInstant();
+						    java.time.ZoneId theZone = java.time.ZoneId.systemDefault();
+						    length = LocalTime.from(ZonedDateTime.ofInstant(inst, theZone));
+						}
+						
+						taskManager.modifyTask(nameField.getText(), length, deadlinePicker.getDateTimePermissive());
+						
 						Scheduler scheduler = new Scheduler();
 						scheduler.recompute();
 						

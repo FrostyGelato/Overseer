@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalTime;
 import java.util.Properties;
 
@@ -11,14 +12,15 @@ public class ConfigManager {
 	
 	Properties appConfig;
 	String configPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "config.properties";
-	String defaultConfigPath = "src/default.properties";
+	String defaultConfigPath = "default.properties";
 	
 	//loads properties
 	public ConfigManager() {
 		try {
 			//loads default configuration from storage
 			Properties defaultConfig = new Properties();
-			FileInputStream in = new FileInputStream(defaultConfigPath);
+			//FileInputStream in = new FileInputStream(defaultConfigPath);
+			InputStream in = Main.class.getResourceAsStream(defaultConfigPath);
 			defaultConfig.load(in);
 			in.close();
 			

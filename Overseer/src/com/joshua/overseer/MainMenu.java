@@ -41,7 +41,7 @@ public class MainMenu extends JFrame {
 	
 	LocalDate dateShown = LocalDate.now();
 	
-	//JSONArray arrayForTimer;
+	JSONArray arrayForTimer; //arraylist?
 
 	public MainMenu() {
 		
@@ -122,9 +122,9 @@ public class MainMenu extends JFrame {
 		checkAndLoadSchedule();
 		
 		//must go after schedule is loaded
-		JLabel lblNewLabel = new JLabel("Nothing to Do...");
+		JLabel lblNewLabel = new JLabel("Click Add to add a task");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(140, 340, 128, 30);
+		lblNewLabel.setBounds(120, 340, 165, 30);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel(dateShown.toString());
@@ -137,7 +137,7 @@ public class MainMenu extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dateShown = dateShown.plusDays(1);
-				refreshSchedule();
+				checkAndRefreshSchedule();
 				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
@@ -149,7 +149,7 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dateShown = dateShown.minusDays(1);
-				refreshSchedule();
+				checkAndRefreshSchedule();
 				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});

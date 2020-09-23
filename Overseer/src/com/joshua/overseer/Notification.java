@@ -12,6 +12,7 @@ public class Notification extends TimerTask {
 	
 	String name;
 	
+	// runs when the timer is set up
 	public Notification(String taskName) {
 		name = taskName;
 	}
@@ -42,6 +43,7 @@ public class Notification extends TimerTask {
         }
 	}
 	
+	// will run immediately if scheduled time has already past
 	@Override
 	public void run() {
 		newNotification(name);

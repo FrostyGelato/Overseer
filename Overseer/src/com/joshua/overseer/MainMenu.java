@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.awt.Font;
@@ -37,11 +38,16 @@ public class MainMenu extends JFrame {
 	JList<Task> taskJList = new JList<>(model);
 	
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
+	
 	MainMenu thisFrame = this;
 	
 	LocalDate dateShown = LocalDate.now();
 	
-	JSONArray arrayForTimer; //arraylist?
+	JSONArray arrayForTimer;
+	
+	ArrayList<String> arrayListForTime = new ArrayList<String>();
+	
+	boolean sessionExists;
 
 	public MainMenu() {
 		
@@ -54,6 +60,7 @@ public class MainMenu extends JFrame {
 		
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
+		sessionExists = directoryChecker.doesSessionExists();
 	
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {
@@ -157,14 +164,15 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.setBounds(40, -1, 53, 25);
 		contentPane.add(btnNewButton_1);
 		
-		if (new File(sessionPath).isFile() == false) {
+		if (sessionExists == false) {
 			modifyTask.setEnabled(false);
 			deleteTask.setEnabled(false);
 		}
 		
-		loadTimer();
+		checkAndLoadTimer();
 	}
 	
+	// secondary functions with checks
 	public void checkAndLoadSchedule() {
 		if (new File(sessionPath).isFile() == true) {
 			
@@ -179,6 +187,12 @@ public class MainMenu extends JFrame {
 	public void checkAndRefreshSchedule() {
 		if (new File(sessionPath).isFile() == true) {
 			refreshSchedule();
+		}
+	}
+	
+	public void checkAndLoadTimer() {
+		if (new File(sessionPath).isFile() == true) {
+			loadTimer();
 		}
 	}
 	
@@ -218,24 +232,31 @@ public class MainMenu extends JFrame {
           }
         }
         
-        //arrayForTimer = sessionArray;
+        arrayForTimer = sessionArray;
 	}
 	
 	public void loadTimer() {
 		
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		/*for (Object session: arrayForTimer) {
+		for (Object session: arrayForTimer) {
 			JSONObject jsonTask = (JSONObject) session;
 			
-		}*/
+			LocalDate taskDate = LocalDate.parse((String) jsonTask.get("date"));
+			
+			if (taskDate.equals(LocalDate.now())) {
+				arrayListForTime.add((String) jsonTask.get("name"));
+			}
+		}
 		
 		try {
-			Date date = dateFormatter.parse("2020-09-15 16:18:30");
+			Date date = dateFormatter.parse("2020-09-22 15:04:30");
 			
 			Timer timer = new Timer();
 			
-			timer.schedule(new Notification("Testing"), date);
+			for (String i: arrayListForTime) {
+				timer.schedule(new Notification(i), date);
+			}
 			
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();

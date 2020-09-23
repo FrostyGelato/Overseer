@@ -25,12 +25,14 @@ public class TaskManager {
 	
 	public TaskManager() {
 		JSONParser parser = new JSONParser();
-    
-        try {
-        	//parse tasks.json file and load the array data
-			taskArray = (JSONArray) parser.parse(new FileReader(taskPath));
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
+		
+		if (new File(taskPath).isFile() == true) {
+			try {
+	        	//parse tasks.json file and load the array data
+				taskArray = (JSONArray) parser.parse(new FileReader(taskPath));
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

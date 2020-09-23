@@ -250,12 +250,13 @@ public class MainMenu extends JFrame {
 		}
 		
 		try {
-			Date date = dateFormatter.parse("2020-09-22 15:04:30");
+			Date date = dateFormatter.parse("2020-09-23 16:10:00");
 			
 			Timer timer = new Timer();
 			
 			for (String i: arrayListForTime) {
-				timer.schedule(new Notification(i), date);
+				//timer.schedule(new Notification(i), date);
+				timer.schedule(new BreakNotification(), date);
 			}
 			
 		} catch (java.text.ParseException e) {

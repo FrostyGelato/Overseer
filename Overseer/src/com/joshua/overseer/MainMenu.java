@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
@@ -45,7 +46,7 @@ public class MainMenu extends JFrame {
 	
 	JSONArray arrayForTimer;
 	
-	ArrayList<String> arrayListForTime = new ArrayList<String>();
+	ArrayList<SessionForTimer> arrayListForTime = new ArrayList<SessionForTimer>();
 	
 	boolean sessionExists;
 
@@ -237,26 +238,33 @@ public class MainMenu extends JFrame {
 	
 	public void loadTimer() {
 		
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SessionForTimer sessionForTimer;
 		
 		for (Object session: arrayForTimer) {
 			JSONObject jsonTask = (JSONObject) session;
 			
 			LocalDate taskDate = LocalDate.parse((String) jsonTask.get("date"));
+			LocalTime startTime = LocalTime.parse((String) jsonTask.get("startTime"));
+			LocalTime endTime = LocalTime.parse((String) jsonTask.get("endTime"));
 			
 			if (taskDate.equals(LocalDate.now())) {
-				arrayListForTime.add((String) jsonTask.get("name"));
+				sessionForTimer = new SessionForTimer((String) jsonTask.get("name"), startTime, endTime);
+				arrayListForTime.add(sessionForTimer);
 			}
 		}
 		
 		try {
-			Date date = dateFormatter.parse("2020-09-23 16:10:00");
+			DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			
 			Timer timer = new Timer();
 			
-			for (String i: arrayListForTime) {
-				//timer.schedule(new Notification(i), date);
-				timer.schedule(new BreakNotification(), date);
+			for (SessionForTimer i: arrayListForTime) {
+				
+				Date scheduledWorkTime = dateFormatter.parse(LocalDate.now() + " " + i.startTime.toString());
+				Date scheduledBreakTime = dateFormatter.parse(LocalDate.now() + " " + i.endTime.toString());
+				
+				timer.schedule(new Notification(i.name), scheduledWorkTime);
+				timer.schedule(new BreakNotification(), scheduledBreakTime);
 			}
 			
 		} catch (java.text.ParseException e) {

@@ -109,6 +109,7 @@ public class AddMenu extends JDialog {
 						taskManager.addTask(taskName.getText(), length, deadlinePicker.getDateTimePermissive());
 						// refreshes schedule in parent JFrame
 						parentJFrame.checkAndRefreshSchedule();
+						parentJFrame.checkAndLoadTimer();
 						dispose();
 					}
 				});

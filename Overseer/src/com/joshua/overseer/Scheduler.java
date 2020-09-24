@@ -3,6 +3,7 @@ package com.joshua.overseer;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -60,20 +61,20 @@ public class Scheduler {
 		}
 		
 		// create array
-	    Session[] sessionArray = new Session[2];
+	    ArrayList<Session> sessionArray = new ArrayList<Session>();
 	    
 	    Integer sessionNumber = 0;
 	    
 	    Session newSession;
 	    
-	    //while (remainderOfWorkMin > combinedMinutes && remainderOfWork.toMinutes() > 0) {
-	    for (int i = 0; i < 2; i++) {
+	    while (remainderOfWorkMin > combinedMinutes && remainderOfWork.toMinutes() > 0) {
+	    //for (int i = 0; i < 2; i++) {
 	    	LocalTime sessionStartTime = currentTime.plusMinutes(combinedMinutes * sessionNumber);
 	    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(workMinutes);
 	    		    	
 	    	newSession = new Session(name, sessionStartTime, sessionEndTime, today);
 	    	
-	    	sessionArray[sessionNumber] = newSession;
+	    	sessionArray.add(newSession);
 	    	
 	    	sessionNumber++;
 	    	remainderOfWorkMin = remainderOfWorkMin - (sessionNumber * combinedMinutes);

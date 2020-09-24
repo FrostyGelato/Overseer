@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -35,7 +36,7 @@ public class SessionManager {
 		
 	}
 	
-	public void addSessions(Session[] sessions) {
+	public void addSessions(ArrayList<Session> sessions) {
 		
 		for (Session i: sessions) {
 			sessionPeriod = new JSONObject();

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class SessionManager {
 	
 	JSONArray sessionArray = new JSONArray();
 	JSONObject sessionPeriod = new JSONObject();
+	ArrayList<Session> sessionArrayList = new ArrayList<>();
 	String sessionName;
 	
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
@@ -53,6 +56,16 @@ public class SessionManager {
 		}
 		
 		writeToDisk();
+	}
+	
+	public ArrayList<Session> getSessions() {
+		for (Object i: sessionArray) {
+			JSONObject session = (JSONObject) i;
+			Session sessionInstance = new Session((String) session.get("name"), LocalTime.parse((String) session.get("startTime")), LocalTime.parse((String) session.get("endTime")), LocalDate.parse((String) session.get("date")));
+			sessionArrayList.add(sessionInstance);
+		}
+		
+		return sessionArrayList;
 	}
 	
 	public void writeToDisk() {

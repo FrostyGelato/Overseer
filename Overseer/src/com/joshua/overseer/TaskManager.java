@@ -112,15 +112,6 @@ public class TaskManager {
 			e.printStackTrace();
 		}
 	}
-	
-	/*public String getTaskName(int arrayIndex) {
-	String taskName = "";
-	if (arrayIndex >= 0) {
-		JSONObject taskToModify = (JSONObject) taskArray.get(arrayIndex);
-		taskName = taskToModify.get("name").toString();
-	}
-	return taskName;
-	}*/
 
 }
 

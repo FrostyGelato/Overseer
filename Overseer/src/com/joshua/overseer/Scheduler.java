@@ -10,7 +10,8 @@ import javax.swing.JOptionPane;
 public class Scheduler {
 
 	public Scheduler() {
-		
+		SessionManager sessionManager = new SessionManager();
+		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
 	}
 	
 	public void recompute() {
@@ -82,19 +83,6 @@ public class Scheduler {
 
 	    SessionManager sessionManager = new SessionManager();
 	    sessionManager.addSessions(sessionArray);
-			
-		/*} else if (currentTime.isBefore(endTimeWithWork)) {
-			
-		    Period period = Period.between(currentDate, deadline);
-		    int difference = period.getDays();
-		    
-		    int minutesRequired = timeRequired.getMinute();
-		    Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
-		    Integer durationRequired = (int) hoursRequired.toMinutes() + minutesRequired;
-		    
-		    Integer numberOfPeriods = durationRequired/workMinutes;
-		    Integer days = numberOfPeriods/difference;
-		}*/
 	}
 
 }

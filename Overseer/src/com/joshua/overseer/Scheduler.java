@@ -29,33 +29,35 @@ public class Scheduler {
 		LocalDate tomorrow = today.plusDays(1);
 		
 		// fetch setting data
-		Integer combinedMinutes = configManager.getCombinedTimeLength();
-		Integer breakMinutes = configManager.getBreakTimeLength();
-		Integer workMinutes = configManager.getWorkTimeLength();
+		Integer configCombinedMinutes = configManager.getCombinedTimeLength();
+		Integer configBreakMinutes = configManager.getBreakTimeLength();
+		Integer configWorkMinutes = configManager.getWorkTimeLength();
 		
 		// fetch more setting data
-		LocalTime workStartTime = LocalTime.parse(configManager.getStartTime());
-		LocalTime workEndTime = LocalTime.parse(configManager.getEndTime());
-		LocalTime enoughTimeForOneSession = workEndTime.minusMinutes(workMinutes);
+		LocalTime configWorkStartTime = LocalTime.parse(configManager.getStartTime());
+		LocalTime configWorkEndTime = LocalTime.parse(configManager.getEndTime());
+		LocalTime oneSessionBeforeWorkEnds = configWorkEndTime.minusMinutes(configWorkMinutes);
 		
-		// convert LocalTime to Duration
+		// convert timeRequired from LocalTime to Duration
 		Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
 		int minutesRequired = timeRequired.getMinute();
 		Integer durationRequiredInMinutes = (int) hoursRequired.toMinutes() + minutesRequired;
 		
-		Float numberOfSessionsWithDecimal = (float) durationRequiredInMinutes / (float) workMinutes;
+		// calculate number of sessions needed to finish task
+		Float numberOfSessionsWithDecimal = (float) durationRequiredInMinutes / (float) configWorkMinutes;
 		Integer numberOfSessions = (int) Math.ceil(numberOfSessionsWithDecimal);
 		
 		// number of work sessions should equal number of breaks
-	    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + breakMinutes * numberOfSessions;
+	    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + configBreakMinutes * numberOfSessions;
 	    
-	    Duration remainderOfWork = Duration.between(currentTime, workEndTime);
-	    Integer remainderOfWorkMin = (int) remainderOfWork.toMinutes();
+	    // how much time until work period ends
+	    Duration remainderOfWorkPeriod = Duration.between(currentTime, configWorkEndTime);
+	    Integer remainderOfWorkPeriodInMin = (int) remainderOfWorkPeriod.toMinutes();
 		
 		// if task is due tomorrow
 		if (deadline == tomorrow) {
 		    
-		    if (currentTime.isAfter(enoughTimeForOneSession) || durationRequiredWithBreakInBetween > remainderOfWorkMin) {
+		    if (currentTime.isAfter(oneSessionBeforeWorkEnds) || durationRequiredWithBreakInBetween > remainderOfWorkPeriodInMin) {
 		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
 		    }
 		    // the above code is finished for now
@@ -68,17 +70,18 @@ public class Scheduler {
 	    
 	    Session newSession;
 	    
-	    while (remainderOfWorkMin > combinedMinutes && remainderOfWork.toMinutes() > 0) {
-	    //for (int i = 0; i < 2; i++) {
-	    	LocalTime sessionStartTime = currentTime.plusMinutes(combinedMinutes * sessionNumber);
-	    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(workMinutes);
-	    		    	
-	    	newSession = new Session(name, sessionStartTime, sessionEndTime, today);
+	    while (remainderOfWorkPeriodInMin > configCombinedMinutes && durationRequiredInMinutes > 0) {
 	    	
+	    	// set session start and end times
+	    	LocalTime sessionStartTime = currentTime.plusMinutes(configCombinedMinutes * sessionNumber);
+	    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);
+	    	
+	    	newSession = new Session(name, sessionStartTime, sessionEndTime, today);
 	    	sessionArray.add(newSession);
 	    	
+	    	durationRequiredInMinutes = durationRequiredInMinutes - configWorkMinutes;
+	    	remainderOfWorkPeriodInMin = remainderOfWorkPeriodInMin - ((sessionNumber + 1) * configCombinedMinutes);
 	    	sessionNumber++;
-	    	remainderOfWorkMin = remainderOfWorkMin - (sessionNumber * combinedMinutes);
 	    }
 
 	    SessionManager sessionManager = new SessionManager();

@@ -116,12 +116,12 @@ public class Scheduler2 {
 			    	sessionNumber++;
 	    		}
 	    		
+	    		date = date.plusDays(1);
+	    		
 	    		// reset to today after cycling through all days between today and deadline
-	    		if (date.equals(deadline.minusDays(1)) && durationRequiredInMinutes > 0) {
+	    		if (date.equals(deadline) && durationRequiredInMinutes > 0) {
 	    			date = today;
 	    		}
-	    		
-	    		date = date.plusDays(1);
 	    	}
 	    }
 
@@ -149,4 +149,5 @@ public class Scheduler2 {
 	
 	// Bugs to squash:
 	// Session starts 5 mins after the start of work period
+	// All sessions on each day start at same time
 }

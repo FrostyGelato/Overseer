@@ -25,13 +25,6 @@ public class Scheduler2 {
 	LocalTime lastSessionEnds;
 	
 	public Scheduler2() {
-		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
-		for (Session session:sessionArrayList) {
-			if (session.endTime.isAfter(previousSessionEnds)) {
-				lastSessionEnds = session.endTime;
-				previousSessionEnds = lastSessionEnds;
-			}
-		}
 	}
 	
 	public void recompute() {
@@ -77,7 +70,7 @@ public class Scheduler2 {
 	    
 	    while (remainderOfWorkPeriodInMin > configCombinedMinutes && durationRequiredInMinutes > 0) {
 	    	
-	    	LocalTime availableTime;
+	    	/*LocalTime availableTime;
 	    	
 	    	if (lastSessionEnds.isAfter(currentTime)) {
 	    		availableTime = lastSessionEnds.plusMinutes(5);
@@ -94,7 +87,40 @@ public class Scheduler2 {
 	    	
 	    	durationRequiredInMinutes = durationRequiredInMinutes - configWorkMinutes;
 	    	remainderOfWorkPeriodInMin = remainderOfWorkPeriodInMin - ((sessionNumber + 1) * configCombinedMinutes);
-	    	sessionNumber++;
+	    	sessionNumber++;*/
+	    	
+	    	//gets ALL sessions
+    		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
+	    	
+	    	// spreads sessions across multiple days
+	    	for (LocalDate date = LocalDate.now(); !(date.equals(deadline)); date = date.plusDays(1)) {
+	    		
+	    		for (Session session:sessionArrayList) {
+	    			
+	    			if (session.date.equals(date)) {
+	    				
+	    				if (session.endTime.isAfter(previousSessionEnds)) {
+	    					
+		    				lastSessionEnds = session.endTime;
+		    				previousSessionEnds = lastSessionEnds;
+		    			}
+	    			}
+	    		}
+	    		
+	    		// only runs the day the task is added
+	    		if (date.equals(LocalDate.now())) {
+	    			if (lastSessionEnds.isAfter(currentTime)) {
+			    		LocalTime availableTime = lastSessionEnds.plusMinutes(5);
+			    	} else {
+			    		LocalTime availableTime = currentTime;
+			    	}
+	    		}
+	    		
+	    		newSession = new Session(name, sessionStartTime, sessionEndTime, date);
+	    		
+	    		// add session to array
+		    	sessionArray.add(newSession);
+	    	}
 	    }
 
 	    sessionManager.addSessions(sessionArray);

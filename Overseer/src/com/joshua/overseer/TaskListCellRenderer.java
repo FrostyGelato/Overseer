@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-public class TaskListCellRenderer extends JPanel implements ListCellRenderer<Task> {
+public class TaskListCellRenderer extends JPanel implements ListCellRenderer<TaskForList> {
     private JLabel nameLabel;
     private JLabel timeLabel;
 
@@ -23,7 +23,7 @@ public class TaskListCellRenderer extends JPanel implements ListCellRenderer<Tas
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends Task> list, Task value, int index, boolean isSelected,
+    public Component getListCellRendererComponent(JList<? extends TaskForList> list, TaskForList value, int index, boolean isSelected,
             boolean cellHasFocus) {
         nameLabel.setText(value.name);
         timeLabel.setText(value.time);

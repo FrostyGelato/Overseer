@@ -35,8 +35,8 @@ public class MainMenu extends JFrame {
 
 	private JPanel contentPane;
 	
-	DefaultListModel<Task> model = new DefaultListModel<>();
-	JList<Task> taskJList = new JList<>(model);
+	DefaultListModel<TaskForList> model = new DefaultListModel<>();
+	JList<TaskForList> taskJList = new JList<>(model);
 	
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 	
@@ -238,7 +238,7 @@ public class MainMenu extends JFrame {
               String startTime = (String) jsonTask.get("startTime");
               String endTime = (String) jsonTask.get("endTime");
               String time = startTime + " - " + endTime;
-              Task taskEvent = new Task(name, time);
+              TaskForList taskEvent = new TaskForList(name, time);
               model.addElement(taskEvent);
           }
         }

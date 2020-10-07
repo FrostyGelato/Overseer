@@ -1,14 +1,19 @@
 package com.joshua.overseer;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class Task {
-
+	
 	public String name;
-    public String time;
+	public LocalDateTime deadline;
+	public LocalTime timeRequired;
 
-    public Task(String name, String time) {
-    	super();
-        this.name = name;
-        this.time = time;
-    }
+	public Task(String name, LocalDateTime deadline, LocalTime timeRequired) {
+		super();
+		this.name = name;
+		this.deadline = deadline;
+		this.timeRequired = timeRequired;
+	}
 
 }

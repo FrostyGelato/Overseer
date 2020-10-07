@@ -102,6 +102,19 @@ public class TaskManager {
 		return timeRequired;
 	}
 	
+	public ArrayList<Task> getTasks() {
+		
+		ArrayList<Task> taskArrayList = new ArrayList<>();
+		
+		for (Object i: taskArray) {
+			JSONObject task = (JSONObject) i;
+			Task taskInstance = new Task((String) task.get("name"), LocalDateTime.parse((String) task.get("deadline")), LocalTime.parse((String) task.get("timeRequired")));
+			taskArrayList.add(taskInstance);
+		}
+		
+		return taskArrayList;
+	}
+	
 	//saves data to disk
 	public void writeToDisk() {
 		try {

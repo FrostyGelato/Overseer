@@ -7,7 +7,12 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class Scheduler {
+public class Scheduler2 {
+	
+	// get current date and time
+	LocalTime currentTime = LocalTime.now();
+	LocalDate today = LocalDate.now();
+	LocalDate tomorrow = today.plusDays(1);
 
 	SessionManager sessionManager = new SessionManager();
 	// needed to fetch settings
@@ -19,7 +24,7 @@ public class Scheduler {
 	LocalTime previousSessionEnds = configWorkStartTime;
 	LocalTime lastSessionEnds;
 	
-	public Scheduler() {
+	public Scheduler2() {
 		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
 		for (Session session:sessionArrayList) {
 			if (session.endTime.isAfter(previousSessionEnds)) {
@@ -34,11 +39,6 @@ public class Scheduler {
 	}
 	
 	public void add(String name, LocalDate deadline, LocalTime timeRequired) {
-		
-		// get current date and time
-		LocalTime currentTime = LocalTime.now();
-		LocalDate today = LocalDate.now();
-		LocalDate tomorrow = today.plusDays(1);
 		
 		// fetch setting data
 		Integer configCombinedMinutes = configManager.getCombinedTimeLength();
@@ -65,14 +65,8 @@ public class Scheduler {
 	    Duration remainderOfWorkPeriod = Duration.between(currentTime, configWorkEndTime);
 	    Integer remainderOfWorkPeriodInMin = (int) remainderOfWorkPeriod.toMinutes();
 		
-		// if task is due tomorrow
-		if (deadline == tomorrow) {
-		    
-		    if (currentTime.isAfter(oneSessionBeforeWorkEnds) || durationRequiredWithBreakInBetween > remainderOfWorkPeriodInMin) {
-		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
-		    }
-		    // the above code is finished for now
-		}
+		// if task is due tomorrow, print warning
+		checkIfDeadlineIsTomorrow(deadline, oneSessionBeforeWorkEnds, durationRequiredWithBreakInBetween, remainderOfWorkPeriodInMin);
 		
 		// create array
 	    ArrayList<Session> sessionArray = new ArrayList<Session>();
@@ -105,5 +99,13 @@ public class Scheduler {
 
 	    sessionManager.addSessions(sessionArray);
 	}
-
+	
+	public void checkIfDeadlineIsTomorrow(LocalDate deadline, LocalTime oneSessionBeforeWorkEnds, Integer durationRequiredWithBreakInBetween, Integer remainderOfWorkPeriodInMin) {
+		if (deadline == tomorrow) {
+		    
+		    if (currentTime.isAfter(oneSessionBeforeWorkEnds) || durationRequiredWithBreakInBetween > remainderOfWorkPeriodInMin) {
+		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
+		    }
+		}
+	}
 }

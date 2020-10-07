@@ -48,6 +48,8 @@ public class Scheduler2 {
 	    
 	    Session newSession;
 	    
+	    LocalDate date = today;
+	    
 	    // allocates sessions
 	    while (durationRequiredInMinutes > 0) {
 	    	
@@ -57,7 +59,7 @@ public class Scheduler2 {
     		Integer sessionNumber = 0;
 	    	
 	    	// spreads sessions across multiple days
-	    	for (LocalDate date = today; !(date.equals(deadline)); date = date.plusDays(1)) {
+    		if (!(date.equals(deadline))) {
 	    		
 	    		for (Session session:sessionArrayList) {
 	    			
@@ -118,6 +120,8 @@ public class Scheduler2 {
 	    		if (date.equals(deadline.minusDays(1)) && durationRequiredInMinutes > 0) {
 	    			date = today;
 	    		}
+	    		
+	    		date = date.plusDays(1);
 	    	}
 	    }
 
@@ -144,6 +148,5 @@ public class Scheduler2 {
 	}
 	
 	// Bugs to squash:
-	// One more session is added than is needed
-	// Session starts after the end time of the previous day
+	// Session starts 5 mins after the start of work period
 }

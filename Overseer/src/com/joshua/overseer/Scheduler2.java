@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -50,15 +52,15 @@ public class Scheduler2 {
 	    
 	    LocalDate date = today;
 	    
-	    // allocates sessions
+	    // creates a dictionary to store separate sessionNumbers for each day
+	    Map<LocalDate, Integer> sessionNumberMap = new HashMap<LocalDate, Integer>();
+	    
+	    // allocates sessions across multiple days
 	    while (durationRequiredInMinutes > 0) {
 	    	
 	    	//gets ALL sessions
     		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
-    		
-    		Integer sessionNumber = 0;
 	    	
-	    	// spreads sessions across multiple days
     		if (!(date.equals(deadline))) {
 	    		
 	    		for (Session session:sessionArrayList) {
@@ -73,12 +75,13 @@ public class Scheduler2 {
 	    			}
 	    		}
 	    		
-	    		LocalTime availableTime;
+	    		LocalTime availableTime = configWorkStartTime;
 	    		
 	    		Duration remainderOfWorkPeriod;
 	    		
 	    		// only runs the day the task is added
 	    		if (date.equals(today)) {
+	    			
 	    			if (lastSessionEnds.isAfter(currentTime)) {
 			    		availableTime = lastSessionEnds.plusMinutes(5);
 			    	} else {
@@ -89,7 +92,9 @@ public class Scheduler2 {
 	    			remainderOfWorkPeriod = Duration.between(currentTime, configWorkEndTime);
 	    		    
 	    		} else {
-					availableTime = lastSessionEnds.plusMinutes(5);
+	    			if (!(lastSessionEnds.equals(configWorkStartTime))) {
+	    				availableTime = lastSessionEnds.plusMinutes(5);
+	    			}
 					
 					remainderOfWorkPeriod = Duration.between(availableTime, configWorkEndTime);
 				}
@@ -102,7 +107,7 @@ public class Scheduler2 {
 	    		// only add session if there is empty time that day
 	    		if (remainderOfWorkPeriodInMin > configCombinedMinutes) {
 	    			// set session start and end times
-			    	LocalTime sessionStartTime = availableTime.plusMinutes(configCombinedMinutes * sessionNumber);
+			    	LocalTime sessionStartTime = availableTime.plusMinutes(configCombinedMinutes * sessionNumberMap.getOrDefault(date, 0));
 			    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);
 		    		
 			    	// create new session
@@ -112,8 +117,9 @@ public class Scheduler2 {
 			    	sessionArray.add(newSession);
 			    	
 			    	durationRequiredInMinutes = durationRequiredInMinutes - configWorkMinutes;
-			    	remainderOfWorkPeriodInMin = remainderOfWorkPeriodInMin - ((sessionNumber + 1) * configCombinedMinutes);
-			    	sessionNumber++;
+			    	remainderOfWorkPeriodInMin = remainderOfWorkPeriodInMin - ((sessionNumberMap.getOrDefault(date, 0) + 1) * configCombinedMinutes);
+
+			    	sessionNumberMap.put(date, sessionNumberMap.getOrDefault(date, 0) + 1);
 	    		}
 	    		
 	    		date = date.plusDays(1);
@@ -147,7 +153,5 @@ public class Scheduler2 {
 		}
 	}
 	
-	// Bugs to squash:
-	// Session starts 5 mins after the start of work period
-	// All sessions on each day start at same time
+	// Things to do:
 }

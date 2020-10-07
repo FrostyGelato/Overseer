@@ -36,6 +36,13 @@ public class Scheduler2 {
 	
 	public void recompute() {
 		
+		TaskManager taskManager = new TaskManager();
+		
+		ArrayList<Task> taskArrayList = taskManager.getTasks();
+		
+		for (Task i: taskArrayList) {
+			add(i.name, i.deadline.toLocalDate(), i.timeRequired);
+		}
 	}
 	
 	public void add(String name, LocalDate deadline, LocalTime timeRequired) {
@@ -155,4 +162,5 @@ public class Scheduler2 {
 	
 	// Things to do:
 	// checkIfDeadlineIsTomorrow doesn't seem to be working
+	// determine if recompute needs to clear sessions
 }

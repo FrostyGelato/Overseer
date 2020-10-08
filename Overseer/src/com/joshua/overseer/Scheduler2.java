@@ -1,5 +1,6 @@
 package com.joshua.overseer;
 
+import java.awt.Font;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,7 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument.LeafElement;
 
 public class Scheduler2 {
 	
@@ -61,11 +64,13 @@ public class Scheduler2 {
 	    
 	    LocalDate date = today;
 	    
+	    boolean tooMuchWorkAndAbort = false;
+	    
 	    // creates a dictionary to store separate sessionNumbers for each day
 	    Map<LocalDate, Integer> sessionNumberMap = new HashMap<LocalDate, Integer>();
 	    
 	    // allocates sessions across multiple days
-	    while (durationRequiredInMinutes > 0) {
+	    while (durationRequiredInMinutes > 0 && tooMuchWorkAndAbort == false) {
 	    	
 	    	//gets ALL sessions
     		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
@@ -115,10 +120,10 @@ public class Scheduler2 {
 	    		Integer remainderOfWorkPeriodInMin = (int) remainderOfWorkPeriod.toMinutes();
 	    		
 	    		// if task is due tomorrow, print warning
-	    		checkIfDeadlineIsTomorrow(date, deadline, remainderOfWorkPeriodInMin, durationRequiredInMinutes);
+	    		tooMuchWorkAndAbort = checkIfDeadlineIsTomorrow(date, deadline, remainderOfWorkPeriodInMin, durationRequiredInMinutes);
 	    		
 	    		// only add session if there is empty time that day
-	    		if (remainderOfWorkPeriodInMin > configCombinedMinutes) {
+	    		if (remainderOfWorkPeriodInMin > configCombinedMinutes && tooMuchWorkAndAbort == false) {
 	    			// set session start and end times
 			    	LocalTime sessionStartTime = availableTime.plusMinutes(configCombinedMinutes * sessionNumberMap.getOrDefault(date, 0));
 			    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);
@@ -148,7 +153,7 @@ public class Scheduler2 {
 	}
 	
 	// methods for use in other methods
-	public void checkIfDeadlineIsTomorrow(LocalDate date, LocalDate deadline, Integer remainderOfWorkPeriodInMin, Integer durationRequiredInMinutes) {
+	public boolean checkIfDeadlineIsTomorrow(LocalDate date, LocalDate deadline, Integer remainderOfWorkPeriodInMin, Integer durationRequiredInMinutes) {
 		if (date.equals(today) && deadline.equals(tomorrow)) {
 			
 			LocalTime oneSessionBeforeWorkEnds = configWorkEndTime.minusMinutes(configWorkMinutes);
@@ -161,11 +166,18 @@ public class Scheduler2 {
 		    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + configBreakMinutes * numberOfSessions;
 		    
 		    if (currentTime.isAfter(oneSessionBeforeWorkEnds) || durationRequiredWithBreakInBetween > remainderOfWorkPeriodInMin) {
-		    	JOptionPane.showMessageDialog(null, "You may not be able to finish on time. You should ask for an extension.","Schedule Conflicts", JOptionPane.WARNING_MESSAGE);
+		    	
+		    	// allows for custom font
+		    	JLabel label = new JLabel("You may not be able to finish on time. You should ask for an extension. The task will not be added.");
+		    	label.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		    	JOptionPane.showMessageDialog(null, label, "Schedule Conflicts",JOptionPane.WARNING_MESSAGE);
+		    	
+		    	return true;
+		    } else {
+		    	return false;
 		    }
+		} else {
+			return false;
 		}
 	}
-	
-	// Things to do:
-	// checkIfDeadlineIsTomorrow doesn't seem to be working
 }

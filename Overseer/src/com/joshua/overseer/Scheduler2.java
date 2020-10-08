@@ -64,13 +64,13 @@ public class Scheduler2 {
 	    
 	    LocalDate date = today;
 	    
-	    boolean tooMuchWorkAndAbort = false;
+	    boolean abortAddTask = false;
 	    
 	    // creates a dictionary to store separate sessionNumbers for each day
 	    Map<LocalDate, Integer> sessionNumberMap = new HashMap<LocalDate, Integer>();
 	    
 	    // allocates sessions across multiple days
-	    while (durationRequiredInMinutes > 0 && tooMuchWorkAndAbort == false) {
+	    while (durationRequiredInMinutes > 0 && abortAddTask == false) {
 	    	
 	    	//gets ALL sessions
     		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
@@ -120,10 +120,10 @@ public class Scheduler2 {
 	    		Integer remainderOfWorkPeriodInMin = (int) remainderOfWorkPeriod.toMinutes();
 	    		
 	    		// if task is due tomorrow, print warning
-	    		tooMuchWorkAndAbort = checkIfDeadlineIsTomorrow(date, deadline, remainderOfWorkPeriodInMin, durationRequiredInMinutes);
+	    		abortAddTask = checkIfDeadlineIsTomorrow(date, deadline, remainderOfWorkPeriodInMin, durationRequiredInMinutes);
 	    		
 	    		// only add session if there is empty time that day
-	    		if (remainderOfWorkPeriodInMin > configCombinedMinutes && tooMuchWorkAndAbort == false) {
+	    		if (remainderOfWorkPeriodInMin > configCombinedMinutes && abortAddTask == false) {
 	    			// set session start and end times
 			    	LocalTime sessionStartTime = availableTime.plusMinutes(configCombinedMinutes * sessionNumberMap.getOrDefault(date, 0));
 			    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);

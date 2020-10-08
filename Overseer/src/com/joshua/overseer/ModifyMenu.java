@@ -106,7 +106,7 @@ public class ModifyMenu extends JDialog {
 						
 						taskManager.modifyTask(nameField.getText(), length, deadlinePicker.getDateTimePermissive());
 						
-						Scheduler scheduler = new Scheduler();
+						Scheduler3 scheduler = new Scheduler3();
 						scheduler.recompute();
 						
 						parentJFrame.refreshSchedule();

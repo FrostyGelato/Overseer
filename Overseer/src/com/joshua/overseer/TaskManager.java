@@ -19,7 +19,7 @@ public class TaskManager {
 	JSONArray taskArray = new JSONArray();
 	JSONObject task = new JSONObject();
 	
-	Scheduler2 scheduler = new Scheduler2();
+	Scheduler3 scheduler = new Scheduler3();
 	
 	String taskPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "tasks.json";
 	

@@ -55,129 +55,144 @@ public class Scheduler3 {
 			Duration hoursRequired = Duration.ofHours(timeRequired.getHour());
 			int minutesRequired = timeRequired.getMinute();
 			Integer durationRequiredInMinutes = (int) hoursRequired.toMinutes() + minutesRequired;
-			
-			// create array
-		    ArrayList<Session> sessionArray = new ArrayList<Session>();
 		    
-		    Session newSession;
-		    
-		    LocalDate date = today;
-		    
-		    boolean abortAddTask = false;
-		    
-		    // creates a dictionary to store separate sessionNumbers for each day
-		    Map<LocalDate, Integer> sessionNumberMap = new HashMap<LocalDate, Integer>();
-		    
-		    // allocates sessions across multiple days
-		    while (durationRequiredInMinutes > 0 && abortAddTask == false) {
+		    if (checkIfEnoughTime(deadline, durationRequiredInMinutes) == false) {
+		    	// allows for custom font
+		    	JLabel label = new JLabel("You may not be able to finish on time. You should ask for an extension. The task will not be added.");
+		    	label.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		    	JOptionPane.showMessageDialog(null, label, "Schedule Conflicts",JOptionPane.WARNING_MESSAGE);
 		    	
-		    	//gets ALL sessions
-	    		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
-	    		
-	    		previousSessionEnds = configWorkStartTime;
-	    		lastSessionEnds = previousSessionEnds;
+		    } else {
 		    	
-	    		if (!(date.equals(deadline))) {
+		    	// create array
+			    ArrayList<Session> sessionArray = new ArrayList<Session>();
+			    
+			    // creates a dictionary to store separate sessionNumbers for each day
+			    Map<LocalDate, Integer> sessionNumberMap = new HashMap<LocalDate, Integer>();
+		    	
+		    	Session newSession;
+		    	
+			    LocalDate date = today;
+		    	
+		    	// allocates sessions across multiple days
+			    while (durationRequiredInMinutes > 0) {
+			    	
+			    	//gets ALL sessions
+		    		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
 		    		
-		    		for (Session session:sessionArrayList) {
-		    			
-		    			if (session.date.equals(date)) {
-		    				
-		    				if (session.endTime.isAfter(previousSessionEnds)) {
-		    					
-			    				lastSessionEnds = session.endTime;
-			    				previousSessionEnds = lastSessionEnds;
+		    		previousSessionEnds = configWorkStartTime;
+		    		lastSessionEnds = previousSessionEnds;
+			    	
+		    		if (!(date.equals(deadline))) {
+			    		
+			    		for (Session session:sessionArrayList) {
+			    			
+			    			if (session.date.equals(date)) {
+			    				
+			    				if (session.endTime.isAfter(previousSessionEnds)) {
+			    					
+				    				lastSessionEnds = session.endTime;
+				    				previousSessionEnds = lastSessionEnds;
+				    			}
 			    			}
-		    			}
-		    		}
-		    		
-		    		LocalTime availableTime = configWorkStartTime;
-		    		
-		    		Duration remainderOfWorkPeriod;
-		    		
-		    		// only runs the day the task is added
-		    		if (date.equals(today)) {
-		    			
-		    			if (lastSessionEnds.isAfter(currentTime)) {
-				    		availableTime = lastSessionEnds.plusMinutes(5);
-				    	} else {
-				    		availableTime = currentTime;
-				    	}
-		    			
-		    			// how much time until work period ends
-		    			remainderOfWorkPeriod = Duration.between(currentTime, configWorkEndTime);
-		    		    
-		    		} else {
-		    			
-		    			if (!(lastSessionEnds.equals(configWorkStartTime))) {
-		    				availableTime = lastSessionEnds.plusMinutes(5);
-		    			}
-						
-						remainderOfWorkPeriod = Duration.between(availableTime, configWorkEndTime);
-					}
-		    		
-		    		Integer remainderOfWorkPeriodInMin = (int) remainderOfWorkPeriod.toMinutes();
-		    		
-		    		// if task is due tomorrow, print warning
-		    		abortAddTask = checkIfDeadlineIsTomorrow(date, deadline, remainderOfWorkPeriodInMin, durationRequiredInMinutes);
-		    		
-		    		// only add session if there is empty time that day
-		    		if (remainderOfWorkPeriodInMin > configCombinedMinutes && abortAddTask == false) {
-		    			// set session start and end times
-				    	LocalTime sessionStartTime = availableTime.plusMinutes(configCombinedMinutes * sessionNumberMap.getOrDefault(date, 0));
-				    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);
+			    		}
 			    		
-				    	// create new session
-			    		newSession = new Session(name, sessionStartTime, sessionEndTime, date);
+			    		LocalTime availableTime = configWorkStartTime;
 			    		
-			    		// add session to array
-				    	sessionArray.add(newSession);
-				    	
-				    	durationRequiredInMinutes = durationRequiredInMinutes - configWorkMinutes;
-				    	remainderOfWorkPeriodInMin = remainderOfWorkPeriodInMin - ((sessionNumberMap.getOrDefault(date, 0) + 1) * configCombinedMinutes);
+			    		Duration remainderOfWorkPeriod;
+			    		
+			    		// only runs the day the task is added
+			    		if (date.equals(today)) {
+			    			
+			    			if (lastSessionEnds.isAfter(currentTime)) {
+					    		availableTime = lastSessionEnds.plusMinutes(5);
+					    	} else {
+					    		availableTime = currentTime;
+					    	}
+			    			
+			    			// how much time until work period ends
+			    			remainderOfWorkPeriod = Duration.between(currentTime, configWorkEndTime);
+			    		    
+			    		} else {
+			    			
+			    			if (!(lastSessionEnds.equals(configWorkStartTime))) {
+			    				availableTime = lastSessionEnds.plusMinutes(5);
+			    			}
+							
+							remainderOfWorkPeriod = Duration.between(availableTime, configWorkEndTime);
+						}
+			    		
+			    		Integer remainderOfWorkPeriodInMin = (int) remainderOfWorkPeriod.toMinutes();
+			    		
+			    		// only add session if there is empty time that day
+			    		if (remainderOfWorkPeriodInMin > configCombinedMinutes) {
+			    			// set session start and end times
+					    	LocalTime sessionStartTime = availableTime.plusMinutes(configCombinedMinutes * sessionNumberMap.getOrDefault(date, 0));
+					    	LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);
+				    		
+					    	// create new session
+				    		newSession = new Session(name, sessionStartTime, sessionEndTime, date);
+				    		
+				    		// add session to array
+					    	sessionArray.add(newSession);
+					    	
+					    	durationRequiredInMinutes = durationRequiredInMinutes - configWorkMinutes;
+					    	remainderOfWorkPeriodInMin = remainderOfWorkPeriodInMin - ((sessionNumberMap.getOrDefault(date, 0) + 1) * configCombinedMinutes);
 
-				    	sessionNumberMap.put(date, sessionNumberMap.getOrDefault(date, 0) + 1);
-		    		}
-		    		
-		    		date = date.plusDays(1);
-		    		
-		    		// reset to today after cycling through all days between today and deadline
-		    		if (date.equals(deadline) && durationRequiredInMinutes > 0) {
-		    			date = today;
-		    		}
-		    	}
+					    	sessionNumberMap.put(date, sessionNumberMap.getOrDefault(date, 0) + 1);
+			    		}
+			    		
+			    		date = date.plusDays(1);
+			    		
+			    		// reset to today after cycling through all days between today and deadline
+			    		if (date.equals(deadline) && durationRequiredInMinutes > 0) {
+			    			date = today;
+			    		}
+			    	}
+			    }
+			    sessionManager.addSessions(sessionArray);
 		    }
-
-		    sessionManager.addSessions(sessionArray);
 		}
 		
 		// methods for use in other methods
-		public boolean checkIfDeadlineIsTomorrow(LocalDate date, LocalDate deadline, Integer remainderOfWorkPeriodInMin, Integer durationRequiredInMinutes) {
-			if (date.equals(today) && deadline.equals(tomorrow)) {
-				
-				LocalTime oneSessionBeforeWorkEnds = configWorkEndTime.minusMinutes(configWorkMinutes);
-				
-				// calculate number of sessions needed to finish task
-				Float numberOfSessionsWithDecimal = (float) durationRequiredInMinutes / (float) configWorkMinutes;
-				Integer numberOfSessions = (int) Math.ceil(numberOfSessionsWithDecimal);
-				
-				// number of work sessions should equal number of breaks
-			    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + configBreakMinutes * numberOfSessions;
-			    
-			    if (currentTime.isAfter(oneSessionBeforeWorkEnds) || durationRequiredWithBreakInBetween > remainderOfWorkPeriodInMin) {
-			    	
-			    	// allows for custom font
-			    	JLabel label = new JLabel("You may not be able to finish on time. You should ask for an extension. The task will not be added.");
-			    	label.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			    	JOptionPane.showMessageDialog(null, label, "Schedule Conflicts",JOptionPane.WARNING_MESSAGE);
-			    	
-			    	return true;
-			    } else {
-			    	return false;
-			    }
-			} else {
-				return false;
-			}
+		public boolean checkIfEnoughTime(LocalDate deadline, Integer durationRequiredInMinutes) {
+			
+			// calculate number of sessions needed to finish task
+			Float numberOfSessionsWithDecimal = (float) durationRequiredInMinutes / (float) configWorkMinutes;
+			Integer numberOfSessions = (int) Math.ceil(numberOfSessionsWithDecimal);
+			
+			// number of work sessions should equal number of breaks
+		    Integer durationRequiredWithBreakInBetween = durationRequiredInMinutes + configBreakMinutes * numberOfSessions;
+		    
+		    Integer timeAvailable = 0;
+		    
+		    ArrayList<Session> sessionArrayListForCheck = sessionManager.getSessions();
+		    
+		    for (LocalDate date = today; !(date.equals(deadline)); date = date.plusDays(1)) {
+		    	
+		    	for (Session session:sessionArrayListForCheck) {
+	    			
+	    			if (session.date.equals(date)) {
+	    				
+	    				if (session.endTime.isAfter(previousSessionEnds)) {
+	    					
+		    				lastSessionEnds = session.endTime;
+		    				previousSessionEnds = lastSessionEnds;
+		    			}
+	    			}
+	    		}
+		    	
+		    	Duration durationAvailable = Duration.between(lastSessionEnds, configWorkEndTime);
+		    	
+		    	Integer timeAvailableForDate = (int) durationAvailable.toMinutes();
+		    	
+		    	timeAvailable = timeAvailable + timeAvailableForDate;
+		    }
+		    
+		    if (durationRequiredWithBreakInBetween > timeAvailable) {
+		    	return false;
+		    } else {
+		    	return true;
+		    }
 		}
-
 }

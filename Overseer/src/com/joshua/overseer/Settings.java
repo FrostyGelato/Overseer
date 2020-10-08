@@ -166,6 +166,10 @@ public class Settings extends JDialog {
 						} catch (IOException saveError) {
 							saveError.printStackTrace();
 						}
+						
+						Scheduler3 scheduler = new Scheduler3();
+						scheduler.recompute();
+						
 						parentFrame.checkAndRefreshSchedule();
 						
 						dispose();

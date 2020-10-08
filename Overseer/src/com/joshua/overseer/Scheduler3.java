@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class Scheduler3 {
 
@@ -58,7 +59,7 @@ public class Scheduler3 {
 		    
 		    if (checkIfEnoughTime(deadline, durationRequiredInMinutes) == false) {
 		    	// allows for custom font
-		    	JLabel label = new JLabel("You may not be able to finish on time. You should ask for an extension. The task will not be added.");
+		    	JLabel label = new JLabel("<html>You may not be able to finish on time.<br/>You should ask for an extension.<br/>The task will not be added.</html>", SwingConstants.CENTER);
 		    	label.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		    	JOptionPane.showMessageDialog(null, label, "Schedule Conflicts",JOptionPane.WARNING_MESSAGE);
 		    	

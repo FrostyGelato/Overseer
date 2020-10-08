@@ -36,6 +36,8 @@ public class Scheduler2 {
 	
 	public void recompute() {
 		
+		sessionManager.sessionArray.clear();
+		
 		TaskManager taskManager = new TaskManager();
 		
 		ArrayList<Task> taskArrayList = taskManager.getTasks();
@@ -67,6 +69,9 @@ public class Scheduler2 {
 	    	
 	    	//gets ALL sessions
     		ArrayList<Session> sessionArrayList = sessionManager.getSessions();
+    		
+    		previousSessionEnds = configWorkStartTime;
+    		lastSessionEnds = previousSessionEnds;
 	    	
     		if (!(date.equals(deadline))) {
 	    		
@@ -99,6 +104,7 @@ public class Scheduler2 {
 	    			remainderOfWorkPeriod = Duration.between(currentTime, configWorkEndTime);
 	    		    
 	    		} else {
+	    			
 	    			if (!(lastSessionEnds.equals(configWorkStartTime))) {
 	    				availableTime = lastSessionEnds.plusMinutes(5);
 	    			}
@@ -143,7 +149,7 @@ public class Scheduler2 {
 	
 	// methods for use in other methods
 	public void checkIfDeadlineIsTomorrow(LocalDate date, LocalDate deadline, Integer remainderOfWorkPeriodInMin, Integer durationRequiredInMinutes) {
-		if (date.equals(today) && deadline == tomorrow) {
+		if (date.equals(today) && deadline.equals(tomorrow)) {
 			
 			LocalTime oneSessionBeforeWorkEnds = configWorkEndTime.minusMinutes(configWorkMinutes);
 			
@@ -162,5 +168,4 @@ public class Scheduler2 {
 	
 	// Things to do:
 	// checkIfDeadlineIsTomorrow doesn't seem to be working
-	// determine if recompute needs to clear sessions
 }

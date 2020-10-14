@@ -109,7 +109,7 @@ public class AddMenu extends JDialog {
 						// localTime is automatically set to midnight if not chosen
 						taskManager.addTask(taskName.getText(), length, deadlinePicker.getDateTimePermissive());
 						// refreshes schedule in parent JFrame
-						parentJFrame.checkAndRefreshSchedule();
+						parentJFrame.checkAndLoadSchedule();
 						parentJFrame.checkAndLoadTimer();
 						parentJFrame.refresh();
 						dispose();

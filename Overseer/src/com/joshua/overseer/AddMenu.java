@@ -9,12 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.awt.event.ActionEvent;
@@ -106,13 +109,21 @@ public class AddMenu extends JDialog {
 						    length = LocalTime.from(ZonedDateTime.ofInstant(inst, theZone));
 						}
 						
-						// localTime is automatically set to midnight if not chosen
-						taskManager.addTask(taskName.getText(), length, deadlinePicker.getDateTimePermissive());
-						// refreshes schedule in parent JFrame
-						parentJFrame.checkAndLoadSchedule();
-						parentJFrame.checkAndLoadTimer();
-						parentJFrame.refresh();
-						dispose();
+						LocalDateTime deadline = deadlinePicker.getDateTimePermissive();
+						if (deadline.isAfter(LocalDateTime.now())) {
+							// localTime is automatically set to midnight if not chosen
+							taskManager.addTask(taskName.getText(), length, deadline);
+							// refreshes schedule in parent JFrame
+							parentJFrame.checkAndLoadSchedule();
+							parentJFrame.checkAndLoadTimer();
+							parentJFrame.refresh();
+							dispose();
+						} else {
+							JLabel message = new JLabel("<html>The deadline date cannot be prior to today.<br/>Please select a later date.</html>", SwingConstants.CENTER);
+					    	message.setFont(new Font("Tahoma", Font.PLAIN, 16));
+							JOptionPane.showMessageDialog(null, message, "Illegal Date",JOptionPane.WARNING_MESSAGE);
+						}
+						
 					}
 				});
 				addButton.setActionCommand("OK");

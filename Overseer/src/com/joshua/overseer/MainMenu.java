@@ -50,8 +50,6 @@ public class MainMenu extends JFrame {
 	ArrayList<SessionForTimer> arrayListForTime = new ArrayList<SessionForTimer>();
 	
 	boolean sessionExists;
-	
-	boolean filesAvailableAtLaunch = false;
 
 	public MainMenu() {
 		
@@ -66,10 +64,6 @@ public class MainMenu extends JFrame {
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
 		sessionExists = directoryChecker.doesSessionExists();
-		
-		if (sessionExists = true) {
-			filesAvailableAtLaunch = true;
-		}
 	
 		JButton addTask = new JButton("Add");
 		addTask.addActionListener(new ActionListener() {
@@ -195,11 +189,6 @@ public class MainMenu extends JFrame {
 	public void checkAndRefreshSchedule() {
 		if (new File(sessionPath).isFile() == true) {
 			refreshSchedule();
-			
-			if (filesAvailableAtLaunch == false){
-				checkAndLoadSchedule();
-				filesAvailableAtLaunch = true;
-			}
 		}
 	}
 	
@@ -288,8 +277,4 @@ public class MainMenu extends JFrame {
 		this.validate();
 		this.repaint();
 	}
-	
-	// Bugs:
-	// Schedule will not load if tasks and sessions are not present at launch
-		// if contentpane can be refreshed, filesAvailableAtLaunch is useless
 }

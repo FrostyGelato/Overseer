@@ -15,13 +15,17 @@ import com.github.lgooddatepicker.components.TimePickerSettings;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import java.awt.Color;
 
@@ -98,23 +102,31 @@ public class ModifyMenu extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						/*Object obj = timeRequiredSpinner.getValue();
-						LocalTime length = LocalTime.now();
-						if (obj instanceof java.util.Date) {
-						    java.util.Date theDate = (java.util.Date) obj;
-						    java.time.Instant inst = theDate.toInstant();
-						    java.time.ZoneId theZone = java.time.ZoneId.systemDefault();
-						    length = LocalTime.from(ZonedDateTime.ofInstant(inst, theZone));
+						LocalDateTime deadline = deadlinePicker.getDateTimePermissive();
+						
+						if (deadline.isAfter(LocalDateTime.now())) {
+							Object obj = timeRequiredSpinner.getValue();
+							LocalTime length = LocalTime.now();
+							if (obj instanceof java.util.Date) {
+							    java.util.Date theDate = (java.util.Date) obj;
+							    java.time.Instant inst = theDate.toInstant();
+							    java.time.ZoneId theZone = java.time.ZoneId.systemDefault();
+							    length = LocalTime.from(ZonedDateTime.ofInstant(inst, theZone));
+							}
+							
+							taskManager.modifyTask(nameField.getText(), length, deadlinePicker.getDateTimePermissive());
+							
+							Scheduler3 scheduler = new Scheduler3();
+							scheduler.recompute();
+							
+							parentJFrame.refreshSchedule();
+							
+							dispose();
+						} else {
+							JLabel message = new JLabel("<html>The deadline date cannot be prior to today.<br/>Please select a later date.</html>", SwingConstants.CENTER);
+					    	message.setFont(new Font("Tahoma", Font.PLAIN, 16));
+							JOptionPane.showMessageDialog(null, message, "Illegal Date",JOptionPane.WARNING_MESSAGE);
 						}
-						
-						taskManager.modifyTask(nameField.getText(), length, deadlinePicker.getDateTimePermissive());
-						
-						Scheduler3 scheduler = new Scheduler3();
-						scheduler.recompute();
-						
-						parentJFrame.refreshSchedule();*/
-						
-						dispose();
 					}
 				});
 				okButton.setActionCommand("OK");

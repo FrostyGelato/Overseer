@@ -30,6 +30,7 @@ import java.util.Timer;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class MainMenu extends JFrame {
 
@@ -57,6 +58,7 @@ public class MainMenu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 800);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 255, 243));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -280,6 +282,11 @@ public class MainMenu extends JFrame {
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void refresh() {
+		this.validate();
+		this.repaint();
 	}
 	
 	// Bugs:

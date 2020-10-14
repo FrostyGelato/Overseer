@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 
 import com.github.lgooddatepicker.components.*;
 import java.awt.Font;
+import java.awt.Color;
 
 public class AddMenu extends JDialog {
 
@@ -32,6 +33,7 @@ public class AddMenu extends JDialog {
 		
 		setBounds(100, 100, 450, 600);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(240, 255, 243));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -86,6 +88,7 @@ public class AddMenu extends JDialog {
 		// the buttons
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(new Color(240, 255, 243));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
@@ -108,6 +111,7 @@ public class AddMenu extends JDialog {
 						// refreshes schedule in parent JFrame
 						parentJFrame.checkAndRefreshSchedule();
 						parentJFrame.checkAndLoadTimer();
+						parentJFrame.refresh();
 						dispose();
 					}
 				});

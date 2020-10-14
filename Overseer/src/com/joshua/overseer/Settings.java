@@ -21,6 +21,7 @@ import java.time.ZonedDateTime;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.Font;
+import java.awt.Color;
 
 public class Settings extends JDialog {
 
@@ -33,8 +34,9 @@ public class Settings extends JDialog {
 		
 		ConfigManager configManager = new ConfigManager();
 		
-		setBounds(100, 100, 450, 600);
+		setBounds(100, 100, 367, 600);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(240, 255, 243));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -135,6 +137,7 @@ public class Settings extends JDialog {
 		//the buttons
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(new Color(240, 255, 243));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{

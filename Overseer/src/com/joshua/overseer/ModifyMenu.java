@@ -23,6 +23,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.JSpinner;
+import java.awt.Color;
 
 public class ModifyMenu extends JDialog {
 
@@ -35,6 +36,7 @@ public class ModifyMenu extends JDialog {
 		
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(240, 255, 243));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -88,6 +90,7 @@ public class ModifyMenu extends JDialog {
 		
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(new Color(240, 255, 243));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
@@ -95,7 +98,7 @@ public class ModifyMenu extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						Object obj = timeRequiredSpinner.getValue();
+						/*Object obj = timeRequiredSpinner.getValue();
 						LocalTime length = LocalTime.now();
 						if (obj instanceof java.util.Date) {
 						    java.util.Date theDate = (java.util.Date) obj;
@@ -109,7 +112,7 @@ public class ModifyMenu extends JDialog {
 						Scheduler3 scheduler = new Scheduler3();
 						scheduler.recompute();
 						
-						parentJFrame.refreshSchedule();
+						parentJFrame.refreshSchedule();*/
 						
 						dispose();
 					}

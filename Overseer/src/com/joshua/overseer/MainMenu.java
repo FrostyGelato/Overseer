@@ -86,7 +86,9 @@ public class MainMenu extends JFrame {
 					 modifyTask.setTitle("Modify Task");
 					 modifyTask.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(null, "Please select a task before modifying.","No Task Selected", JOptionPane.WARNING_MESSAGE);
+					JLabel modifyMessage = new JLabel("<html>Please select a task before modifying.</html>", SwingConstants.CENTER);
+			    	modifyMessage.setFont(new Font("Tahoma", Font.PLAIN, 16));
+					JOptionPane.showMessageDialog(null, modifyMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -105,7 +107,9 @@ public class MainMenu extends JFrame {
 					
 					refreshSchedule();
 				} else {
-					JOptionPane.showMessageDialog(null, "Please select a task before deleting.","No Task Selected", JOptionPane.WARNING_MESSAGE);
+					JLabel deleteMessage = new JLabel("<html>Please select a task before deleting.</html>", SwingConstants.CENTER);
+			    	deleteMessage.setFont(new Font("Tahoma", Font.PLAIN, 16));
+					JOptionPane.showMessageDialog(null, deleteMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -165,11 +169,6 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnNewButton_1.setBounds(40, -1, 53, 25);
 		contentPane.add(btnNewButton_1);
-		
-		if (sessionExists == false) {
-			modifyTask.setEnabled(false);
-			deleteTask.setEnabled(false);
-		}
 		
 		checkAndLoadTimer();
 	}

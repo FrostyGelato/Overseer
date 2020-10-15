@@ -45,8 +45,16 @@ public class Scheduler3 {
 			
 			ArrayList<Task> taskArrayList = taskManager.getTasks();
 			
-			for (Task i: taskArrayList) {
-				add(i.name, i.deadline.toLocalDate(), i.timeRequired);
+			// if arrayList is empty, clear session file
+			if (taskArrayList.isEmpty()) {
+				
+				sessionManager.clearSession();
+				
+			} else {
+				
+				for (Task i: taskArrayList) {
+					add(i.name, i.deadline.toLocalDate(), i.timeRequired);
+				}
 			}
 		}
 		

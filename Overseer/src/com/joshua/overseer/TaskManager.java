@@ -60,7 +60,6 @@ public class TaskManager {
 	}
 	
 	public void deleteTask(String taskName) {
-		// finished
 		
 		JSONArray newTaskArray = new JSONArray();     
 		
@@ -70,7 +69,7 @@ public class TaskManager {
 			   
 			   JSONObject taskObject = (JSONObject) taskArray.get(i);
 			   
-		        if (!taskName.equals(taskObject.get("name"))) {
+		        if (!(taskName.equals(taskObject.get("name")))) {
 		        	
 		            newTaskArray.add(taskArray.get(i));
 		        }

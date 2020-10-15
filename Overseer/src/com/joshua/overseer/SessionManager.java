@@ -58,6 +58,13 @@ public class SessionManager {
 		writeToDisk();
 	}
 	
+	public void clearSession() {
+		
+		sessionArray.clear();
+		
+		writeToDisk();
+	}
+	
 	public ArrayList<Session> getSessions() {
 		for (Object i: sessionArray) {
 			JSONObject session = (JSONObject) i;

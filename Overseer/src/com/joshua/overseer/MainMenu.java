@@ -31,6 +31,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Component;
 
 public class MainMenu extends JFrame {
 
@@ -275,5 +276,23 @@ public class MainMenu extends JFrame {
 	public void refresh() {
 		this.validate();
 		this.repaint();
+	}
+	
+	// only for AddMenu
+	public void removeText() {
+		//Get the components in the panel
+		Component[] componentList = contentPane.getComponents();
+
+		//Loop through the components
+		for(Component c : componentList){
+
+		    //Find the components you want to remove
+		    if(c instanceof JLabel){
+		    	
+		    	if (((JLabel) c).getText().equals("Click Add to add a task")) {
+		    		contentPane.remove(c);
+		    	}
+		    }
+		}
 	}
 }

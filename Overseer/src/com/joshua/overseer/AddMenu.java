@@ -110,13 +110,18 @@ public class AddMenu extends JDialog {
 						}
 						
 						LocalDateTime deadline = deadlinePicker.getDateTimePermissive();
+						
 						if (deadline.isAfter(LocalDateTime.now())) {
+							
 							// localTime is automatically set to midnight if not chosen
 							taskManager.addTask(taskName.getText(), length, deadline);
+							
 							// refreshes schedule in parent JFrame
+							parentJFrame.removeText();
 							parentJFrame.checkAndLoadSchedule();
 							parentJFrame.checkAndLoadTimer();
 							parentJFrame.refresh();
+							
 							dispose();
 						} else {
 							JLabel message = new JLabel("<html>The deadline date cannot be prior to today.<br/>Please select a later date.</html>", SwingConstants.CENTER);

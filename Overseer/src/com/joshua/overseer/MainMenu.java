@@ -67,6 +67,7 @@ public class MainMenu extends JFrame {
 		sessionExists = directoryChecker.doesSessionExists();
 	
 		JButton addTask = new JButton("Add");
+		addTask.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		addTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AddMenu newTask = new AddMenu(thisFrame);
@@ -79,6 +80,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(addTask);
 		
 		JButton modifyTask = new JButton("Modify");
+		modifyTask.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		modifyTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (taskJList.getSelectedValue() != null) {
@@ -97,6 +99,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(modifyTask);
 		
 		JButton deleteTask = new JButton("Delete");
+		deleteTask.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		deleteTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//needed
@@ -118,6 +121,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(deleteTask);
 		
 		JButton settingButton = new JButton("Settings");
+		settingButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		settingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+import javax.xml.crypto.Data;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.Timer;
 import java.awt.event.ActionEvent;
 
 import com.github.lgooddatepicker.components.*;
@@ -78,13 +79,21 @@ public class AddMenu extends JDialog {
 		timeSpinner.setBounds(151, 53, 73, 25);
 		contentPanel.add(timeSpinner);
 		
+		Font timePickerFont = new Font("Tahoma", Font.PLAIN, 16);
+		
 		DatePickerSettings dateSettings = new DatePickerSettings();
         TimePickerSettings timeSettings = new TimePickerSettings();
+        
         dateSettings.setAllowEmptyDates(false);
         timeSettings.setAllowEmptyTimes(false);
+        
+        dateSettings.setFontMonthAndYearMenuLabels(timePickerFont);
+        dateSettings.setFontCalendarDateLabels(timePickerFont);
+        dateSettings.setFontValidDate(timePickerFont);
+        dateSettings.setFontTodayLabel(timePickerFont);
+        
 		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
-		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
-		deadlinePicker.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
+		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(timePickerFont);
 		deadlinePicker.setBounds(102, 101, 300, 34);
 		contentPanel.add(deadlinePicker);
 		

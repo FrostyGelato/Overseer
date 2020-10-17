@@ -35,15 +35,16 @@ import java.awt.Color;
 import java.awt.Component;
 
 public class MainMenu extends JFrame {
+	
+	MainMenu thisFrame = this;
 
 	private JPanel contentPane;
 	
-	DefaultListModel<TaskForList> model = new DefaultListModel<>();
-	JList<TaskForList> taskJList = new JList<>(model);
-	
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 	
-	MainMenu thisFrame = this;
+	// for schedule
+	DefaultListModel<TaskForList> model = new DefaultListModel<>();
+	JList<TaskForList> taskJList = new JList<>(model);
 	
 	LocalDate dateShown = LocalDate.now();
 	
@@ -181,7 +182,7 @@ public class MainMenu extends JFrame {
 	
 	// secondary functions with checks
 	public void checkAndLoadSchedule() {
-		if (new File(sessionPath).isFile() == true) {
+		if (sessionExists) {
 			
 			loadData();
 		
@@ -192,7 +193,7 @@ public class MainMenu extends JFrame {
 	}
 	
 	public void checkAndRefreshSchedule() {
-		if (new File(sessionPath).isFile() == true) {
+		if (sessionExists) {
 			refreshSchedule();
 		}
 	}
@@ -238,7 +239,7 @@ public class MainMenu extends JFrame {
 	
 	//set ups notifications
 	public void checkAndLoadTimer() {
-		if (new File(sessionPath).isFile() == true) {
+		if (sessionExists) {
 			loadTimer();
 		}
 	}
@@ -307,13 +308,13 @@ public class MainMenu extends JFrame {
 	
 	// only for AddMenu
 	public void removeText() {
-		//Get the components in the panel
+		// get the components in the panel
 		Component[] componentList = contentPane.getComponents();
 
-		//Loop through the components
+		// loop through the components
 		for(Component c : componentList){
 
-		    //Find the components you want to remove
+		    // find Jlabel with certain text and remove it
 		    if(c instanceof JLabel){
 		    	
 		    	if (((JLabel) c).getText().equals("Click Add to add a task")) {

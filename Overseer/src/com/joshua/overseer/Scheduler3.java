@@ -177,6 +177,7 @@ public class Scheduler3 {
 		    
 		    ArrayList<Session> sessionArrayListForCheck = sessionManager.getSessions();
 		    
+		    // loop is for calculating timeAvailable
 		    for (LocalDate date = today; !(date.equals(deadline)); date = date.plusDays(1)) {
 		    	
 		    	for (Session session:sessionArrayListForCheck) {
@@ -197,13 +198,14 @@ public class Scheduler3 {
 		    	
 		    	timeAvailable = timeAvailable + timeAvailableForDate;
 		    }
+		    // if deadline is tomorrow and current time is after work, return false
 		    
-		    if (durationRequiredWithBreakInBetween > timeAvailable) {
+		    if (tomorrow.equals(deadline) && currentTime.isAfter(configWorkEndTime)) {
+		    	return false;
+		    } else if (durationRequiredWithBreakInBetween > timeAvailable) {
 		    	return false;
 		    } else {
 		    	return true;
 		    }
 		}
 }
-//Bugs:
-//Adding a task after work causes a loop

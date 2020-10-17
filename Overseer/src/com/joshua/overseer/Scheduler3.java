@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 public class Scheduler3 {
 
@@ -178,31 +179,34 @@ public class Scheduler3 {
 		    ArrayList<Session> sessionArrayListForCheck = sessionManager.getSessions();
 		    
 		    // loop is for calculating timeAvailable
+		    // loop through every day from now to day before deadline
 		    for (LocalDate date = today; !(date.equals(deadline)); date = date.plusDays(1)) {
 		    	
-		    	for (Session session:sessionArrayListForCheck) {
-	    			
-	    			if (session.date.equals(date)) {
-	    				
-	    				if (session.endTime.isAfter(previousSessionEnds)) {
-	    					
-		    				lastSessionEnds = session.endTime;
-		    				previousSessionEnds = lastSessionEnds;
+		    	if (date.equals(today) && LocalTime.now().isAfter(configWorkEndTime)) {
+		    		
+		    		timeAvailable = 0;
+		    	} else {
+		    		for (Session session:sessionArrayListForCheck) {
+		    			
+		    			if (session.date.equals(date)) {
+		    				
+		    				if (session.endTime.isAfter(previousSessionEnds)) {
+		    					
+			    				lastSessionEnds = session.endTime;
+			    				previousSessionEnds = lastSessionEnds;
+			    			}
 		    			}
-	    			}
-	    		}
-		    	
-		    	Duration durationAvailable = Duration.between(lastSessionEnds, configWorkEndTime);
-		    	
-		    	Integer timeAvailableForDate = (int) durationAvailable.toMinutes();
-		    	
-		    	timeAvailable = timeAvailable + timeAvailableForDate;
+		    		}
+			    	
+			    	Duration durationAvailable = Duration.between(lastSessionEnds, configWorkEndTime);
+			    	
+			    	Integer timeAvailableForDate = (int) durationAvailable.toMinutes();
+			    	
+			    	timeAvailable = timeAvailable + timeAvailableForDate;
+		    	}
 		    }
-		    // if deadline is tomorrow and current time is after work, return false
 		    
-		    if (tomorrow.equals(deadline) && currentTime.isAfter(configWorkEndTime)) {
-		    	return false;
-		    } else if (durationRequiredWithBreakInBetween > timeAvailable) {
+		    if (durationRequiredWithBreakInBetween > timeAvailable) {
 		    	return false;
 		    } else {
 		    	return true;

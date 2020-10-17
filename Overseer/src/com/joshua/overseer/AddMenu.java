@@ -158,3 +158,6 @@ public class AddMenu extends JDialog {
 		}
 	}
 }
+//Bugs:
+//A task is still added even if more time is needed
+//The window closes if a task can't be added

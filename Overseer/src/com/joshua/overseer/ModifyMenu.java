@@ -82,13 +82,20 @@ public class ModifyMenu extends JDialog {
 		lblNewLabel_2.setBounds(12, 109, 76, 16);
 		contentPanel.add(lblNewLabel_2);
 		
+		Font timePickerFont = new Font("Tahoma", Font.PLAIN, 16);
+		
 		DatePickerSettings dateSettings = new DatePickerSettings();
         TimePickerSettings timeSettings = new TimePickerSettings();
         dateSettings.setAllowEmptyDates(false);
         timeSettings.setAllowEmptyTimes(false);
+        
+        dateSettings.setFontMonthAndYearMenuLabels(timePickerFont);
+        dateSettings.setFontCalendarDateLabels(timePickerFont);
+        dateSettings.setFontValidDate(timePickerFont);
+        dateSettings.setFontTodayLabel(timePickerFont);
+        
 		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
 		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
-		deadlinePicker.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		deadlinePicker.setBounds(90, 101, 300, 34);
 		contentPanel.add(deadlinePicker);
 		

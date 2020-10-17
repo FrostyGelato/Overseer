@@ -196,12 +196,6 @@ public class MainMenu extends JFrame {
 		}
 	}
 	
-	public void checkAndLoadTimer() {
-		if (new File(sessionPath).isFile() == true) {
-			loadTimer();
-		}
-	}
-	
 	public void refreshSchedule() {
 		model.clear();
 		
@@ -241,6 +235,12 @@ public class MainMenu extends JFrame {
         arrayForTimer = sessionArray;
 	}
 	
+	public void checkAndLoadTimer() {
+		if (new File(sessionPath).isFile() == true) {
+			loadTimer();
+		}
+	}
+	
 	public void loadTimer() {
 		
 		SessionForTimer sessionForTimer;
@@ -252,7 +252,8 @@ public class MainMenu extends JFrame {
 			LocalTime startTime = LocalTime.parse((String) jsonTask.get("startTime"));
 			LocalTime endTime = LocalTime.parse((String) jsonTask.get("endTime"));
 			
-			if (taskDate.equals(LocalDate.now())) {
+			// a notification will only play if start time is not before now
+			if (taskDate.equals(LocalDate.now()) && !(startTime.isBefore(LocalTime.now()))) {
 				sessionForTimer = new SessionForTimer((String) jsonTask.get("name"), startTime, endTime);
 				arrayListForTime.add(sessionForTimer);
 			}
@@ -265,6 +266,7 @@ public class MainMenu extends JFrame {
 			
 			for (SessionForTimer i: arrayListForTime) {
 				
+				//changes localtime to date
 				Date scheduledWorkTime = dateFormatter.parse(LocalDate.now() + " " + i.startTime.toString());
 				Date scheduledBreakTime = dateFormatter.parse(LocalDate.now() + " " + i.endTime.toString());
 				
@@ -277,6 +279,8 @@ public class MainMenu extends JFrame {
 		}
 	}
 	
+	
+	// updates MainMenu when ListCellRenderer is added
 	public void refresh() {
 		this.validate();
 		this.repaint();

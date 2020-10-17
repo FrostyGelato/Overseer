@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -235,12 +236,13 @@ public class MainMenu extends JFrame {
         arrayForTimer = sessionArray;
 	}
 	
+	//set ups notifications
 	public void checkAndLoadTimer() {
 		if (new File(sessionPath).isFile() == true) {
 			loadTimer();
 		}
 	}
-	
+
 	public void loadTimer() {
 		
 		SessionForTimer sessionForTimer;
@@ -252,8 +254,25 @@ public class MainMenu extends JFrame {
 			LocalTime startTime = LocalTime.parse((String) jsonTask.get("startTime"));
 			LocalTime endTime = LocalTime.parse((String) jsonTask.get("endTime"));
 			
+			boolean startsNowOrAFewMinutesBefore = false;
+			
+			if (startTime.isAfter(LocalTime.now())) {
+				
+				startsNowOrAFewMinutesBefore = true;
+				
+			} else { //if session starts before current time
+				
+				Duration howMuchTimeBefore = Duration.between(startTime, LocalTime.now());
+				long howManyMinutesBefore = howMuchTimeBefore.toMinutes();
+				
+				if (howManyMinutesBefore < 5) {
+					
+					startsNowOrAFewMinutesBefore = true;
+				}
+			}
+			
 			// a notification will only play if start time is not before now
-			if (taskDate.equals(LocalDate.now()) && !(startTime.isBefore(LocalTime.now()))) {
+			if (taskDate.equals(LocalDate.now()) && startsNowOrAFewMinutesBefore) {
 				sessionForTimer = new SessionForTimer((String) jsonTask.get("name"), startTime, endTime);
 				arrayListForTime.add(sessionForTimer);
 			}

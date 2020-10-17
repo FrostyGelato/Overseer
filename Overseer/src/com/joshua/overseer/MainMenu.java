@@ -43,16 +43,17 @@ public class MainMenu extends JFrame {
 	String sessionPath = System.getProperty("user.home") + File.separator + ".overseer" + File.separator + "session.json";
 	
 	// for schedule
-	DefaultListModel<TaskForList> model = new DefaultListModel<>();
-	JList<TaskForList> taskJList = new JList<>(model);
+	DefaultListModel<TaskForList> listModel = new DefaultListModel<>();
+	JList<TaskForList> taskJList = new JList<>(listModel);
 	
 	LocalDate dateShown = LocalDate.now();
 	
 	JSONArray arrayForTimer;
-	
 	ArrayList<SessionForTimer> arrayListForTime = new ArrayList<SessionForTimer>();
 	
 	boolean sessionExists;
+	
+	Font standardFont = new Font("Tahoma", Font.PLAIN, 16);
 
 	public MainMenu() {
 		
@@ -69,7 +70,7 @@ public class MainMenu extends JFrame {
 		sessionExists = directoryChecker.doesSessionExists();
 	
 		JButton addTask = new JButton("Add");
-		addTask.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		addTask.setFont(standardFont);
 		addTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AddMenu newTask = new AddMenu(thisFrame);
@@ -82,7 +83,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(addTask);
 		
 		JButton modifyTask = new JButton("Modify");
-		modifyTask.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		modifyTask.setFont(standardFont);
 		modifyTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (taskJList.getSelectedValue() != null) {
@@ -92,7 +93,7 @@ public class MainMenu extends JFrame {
 					 modifyTask.setVisible(true);
 				} else {
 					JLabel modifyMessage = new JLabel("<html>Please select a task before modifying.</html>", SwingConstants.CENTER);
-			    	modifyMessage.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			    	modifyMessage.setFont(standardFont);
 					JOptionPane.showMessageDialog(null, modifyMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
 				}
 			}
@@ -101,7 +102,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(modifyTask);
 		
 		JButton deleteTask = new JButton("Delete");
-		deleteTask.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		deleteTask.setFont(standardFont);
 		deleteTask.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//needed
@@ -114,7 +115,7 @@ public class MainMenu extends JFrame {
 					refreshSchedule();
 				} else {
 					JLabel deleteMessage = new JLabel("<html>Please select a task before deleting.</html>", SwingConstants.CENTER);
-			    	deleteMessage.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			    	deleteMessage.setFont(standardFont);
 					JOptionPane.showMessageDialog(null, deleteMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
 				}
 			}
@@ -123,7 +124,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(deleteTask);
 		
 		JButton settingButton = new JButton("Settings");
-		settingButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		settingButton.setFont(standardFont);
 		settingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -143,13 +144,13 @@ public class MainMenu extends JFrame {
 		
 		//must go after schedule is loaded
 		JLabel lblNewLabel = new JLabel("Click Add to add a task");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setFont(standardFont);
 		lblNewLabel.setBounds(120, 340, 165, 30);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel(dateShown.toString());
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setFont(standardFont);
 		lblNewLabel_1.setBounds(95, 0, 192, 20);
 		contentPane.add(lblNewLabel_1);
 		
@@ -161,7 +162,7 @@ public class MainMenu extends JFrame {
 				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton.setFont(standardFont);
 		btnNewButton.setBounds(285, -1, 53, 25);
 		contentPane.add(btnNewButton);
 		
@@ -173,7 +174,7 @@ public class MainMenu extends JFrame {
 				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton_1.setFont(standardFont);
 		btnNewButton_1.setBounds(40, -1, 53, 25);
 		contentPane.add(btnNewButton_1);
 		
@@ -187,7 +188,8 @@ public class MainMenu extends JFrame {
 			loadData();
 		
 			taskJList.setCellRenderer(new TaskListCellRenderer());
-			taskJList.setBounds(0, 40, 380, 680);
+			// sets the size of the schedule
+			taskJList.setBounds(6, 30, 370, 692);
 			contentPane.add(taskJList);
 		}
 	}
@@ -199,11 +201,11 @@ public class MainMenu extends JFrame {
 	}
 	
 	public void refreshSchedule() {
-		model.clear();
+		listModel.clear();
 		
 		loadData();
         
-        taskJList.setModel(model);
+        taskJList.setModel(listModel);
 	}
 	
 	public void loadData() {
@@ -230,7 +232,7 @@ public class MainMenu extends JFrame {
               String endTime = (String) jsonTask.get("endTime");
               String time = startTime + " - " + endTime;
               TaskForList taskEvent = new TaskForList(name, time);
-              model.addElement(taskEvent);
+              listModel.addElement(taskEvent);
           }
         }
         

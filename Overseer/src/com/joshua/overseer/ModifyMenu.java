@@ -32,7 +32,10 @@ import java.awt.Color;
 public class ModifyMenu extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	
 	private JTextField nameField;
+	
+	Font standardFont = new Font("Tahoma", Font.PLAIN, 16);
 	
 	TaskManager taskManager = new TaskManager();
 
@@ -46,25 +49,25 @@ public class ModifyMenu extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JLabel lblNewLabel = new JLabel("Name:");
-			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			lblNewLabel.setFont(standardFont);
 			lblNewLabel.setBounds(12, 13, 56, 16);
 			contentPanel.add(lblNewLabel);
 		}
 		
 		nameField = new JTextField();
 		nameField.setBounds(70, 8, 197, 28);
-		nameField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		nameField.setFont(standardFont);
 		nameField.setText(taskName);
 		contentPanel.add(nameField);
 		nameField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Time Required:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setFont(standardFont);
 		lblNewLabel_1.setBounds(12, 59, 115, 20);
 		contentPanel.add(lblNewLabel_1);
 		
 		JSpinner timeRequiredSpinner = new JSpinner(new SpinnerDateModel());
-		timeRequiredSpinner.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		timeRequiredSpinner.setFont(standardFont);
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeRequiredSpinner, "HH:mm");
 		timeRequiredSpinner.setEditor(timeEditor);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
@@ -78,24 +81,22 @@ public class ModifyMenu extends JDialog {
 		contentPanel.add(timeRequiredSpinner);
 		
 		JLabel lblNewLabel_2 = new JLabel("Deadline:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_2.setFont(standardFont);
 		lblNewLabel_2.setBounds(12, 109, 76, 16);
 		contentPanel.add(lblNewLabel_2);
-		
-		Font timePickerFont = new Font("Tahoma", Font.PLAIN, 16);
 		
 		DatePickerSettings dateSettings = new DatePickerSettings();
         TimePickerSettings timeSettings = new TimePickerSettings();
         dateSettings.setAllowEmptyDates(false);
         timeSettings.setAllowEmptyTimes(false);
         
-        dateSettings.setFontMonthAndYearMenuLabels(timePickerFont);
-        dateSettings.setFontCalendarDateLabels(timePickerFont);
-        dateSettings.setFontValidDate(timePickerFont);
-        dateSettings.setFontTodayLabel(timePickerFont);
+        dateSettings.setFontMonthAndYearMenuLabels(standardFont);
+        dateSettings.setFontCalendarDateLabels(standardFont);
+        dateSettings.setFontValidDate(standardFont);
+        dateSettings.setFontTodayLabel(standardFont);
         
 		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
-		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
+		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(standardFont);
 		deadlinePicker.setBounds(90, 101, 300, 34);
 		contentPanel.add(deadlinePicker);
 		
@@ -106,6 +107,7 @@ public class ModifyMenu extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setFont(standardFont);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
@@ -131,7 +133,7 @@ public class ModifyMenu extends JDialog {
 							dispose();
 						} else {
 							JLabel message = new JLabel("<html>The deadline date cannot be prior to today.<br/>Please select a later date.</html>", SwingConstants.CENTER);
-					    	message.setFont(new Font("Tahoma", Font.PLAIN, 16));
+					    	message.setFont(standardFont);
 							JOptionPane.showMessageDialog(null, message, "Illegal Date",JOptionPane.WARNING_MESSAGE);
 						}
 					}
@@ -142,6 +144,7 @@ public class ModifyMenu extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setFont(standardFont);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

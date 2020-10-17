@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.xml.crypto.Data;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Timer;
 import java.awt.event.ActionEvent;
 
 import com.github.lgooddatepicker.components.*;
@@ -30,7 +28,10 @@ import java.awt.Color;
 public class AddMenu extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	
 	private JTextField taskName;
+	
+	Font standardFont = new Font("Tahoma", Font.PLAIN, 16);
 
 	public AddMenu(MainMenu parentJFrame) {
 		TaskManager taskManager = new TaskManager();
@@ -43,30 +44,30 @@ public class AddMenu extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JLabel lblNewLabel = new JLabel("Name:");
-			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			lblNewLabel.setFont(standardFont);
 			lblNewLabel.setBounds(24, 13, 60, 16);
 			contentPanel.add(lblNewLabel);
 		}
 		{
 			taskName = new JTextField();
-			taskName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			taskName.setFont(standardFont);
 			taskName.setBounds(98, 4, 304, 34);
 			contentPanel.add(taskName);
 			taskName.setColumns(10);
 		}
 		
 		JLabel lblNewLabel_1 = new JLabel("Time Required:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setFont(standardFont);
 		lblNewLabel_1.setBounds(24, 58, 115, 16);
 		contentPanel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_4 = new JLabel("Deadline:");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_4.setFont(standardFont);
 		lblNewLabel_4.setBounds(24, 108, 67, 16);
 		contentPanel.add(lblNewLabel_4);
 		
 		JSpinner timeSpinner = new JSpinner(new SpinnerDateModel());
-		timeSpinner.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		timeSpinner.setFont(standardFont);
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
 		timeSpinner.setEditor(timeEditor);
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
@@ -79,21 +80,19 @@ public class AddMenu extends JDialog {
 		timeSpinner.setBounds(151, 53, 73, 25);
 		contentPanel.add(timeSpinner);
 		
-		Font timePickerFont = new Font("Tahoma", Font.PLAIN, 16);
-		
 		DatePickerSettings dateSettings = new DatePickerSettings();
         TimePickerSettings timeSettings = new TimePickerSettings();
         
         dateSettings.setAllowEmptyDates(false);
         timeSettings.setAllowEmptyTimes(false);
         
-        dateSettings.setFontMonthAndYearMenuLabels(timePickerFont);
-        dateSettings.setFontCalendarDateLabels(timePickerFont);
-        dateSettings.setFontValidDate(timePickerFont);
-        dateSettings.setFontTodayLabel(timePickerFont);
+        dateSettings.setFontMonthAndYearMenuLabels(standardFont);
+        dateSettings.setFontCalendarDateLabels(standardFont);
+        dateSettings.setFontValidDate(standardFont);
+        dateSettings.setFontTodayLabel(standardFont);
         
 		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
-		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(timePickerFont);
+		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(standardFont);
 		deadlinePicker.setBounds(102, 101, 300, 34);
 		contentPanel.add(deadlinePicker);
 		
@@ -105,6 +104,7 @@ public class AddMenu extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton addButton = new JButton("Add Task");
+				addButton.setFont(standardFont);
 				addButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -134,7 +134,7 @@ public class AddMenu extends JDialog {
 							dispose();
 						} else {
 							JLabel message = new JLabel("<html>The deadline date cannot be prior to today.<br/>Please select a later date.</html>", SwingConstants.CENTER);
-					    	message.setFont(new Font("Tahoma", Font.PLAIN, 16));
+					    	message.setFont(standardFont);
 							JOptionPane.showMessageDialog(null, message, "Illegal Date",JOptionPane.WARNING_MESSAGE);
 						}
 						
@@ -146,6 +146,7 @@ public class AddMenu extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setFont(standardFont);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

@@ -33,8 +33,6 @@ public class ModifyMenu extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	
-	private JTextField nameField;
-	
 	Font standardFont = new Font("Tahoma", Font.PLAIN, 16);
 	
 	TaskManager taskManager = new TaskManager();
@@ -54,12 +52,10 @@ public class ModifyMenu extends JDialog {
 			contentPanel.add(lblNewLabel);
 		}
 		
-		nameField = new JTextField();
-		nameField.setBounds(70, 8, 197, 28);
-		nameField.setFont(standardFont);
-		nameField.setText(taskName);
-		contentPanel.add(nameField);
-		nameField.setColumns(10);
+		JLabel nameLabel = new JLabel(taskName);
+		nameLabel.setFont(standardFont);
+		nameLabel.setBounds(67, 7, 197, 28);
+		contentPanel.add(nameLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Time Required:");
 		lblNewLabel_1.setFont(standardFont);
@@ -123,7 +119,7 @@ public class ModifyMenu extends JDialog {
 							    length = LocalTime.from(ZonedDateTime.ofInstant(inst, theZone));
 							}
 							
-							taskManager.modifyTask(nameField.getText(), length, deadlinePicker.getDateTimePermissive());
+							taskManager.modifyTask(taskName, length, deadlinePicker.getDateTimePermissive());
 							
 							Scheduler3 scheduler = new Scheduler3();
 							scheduler.recompute();

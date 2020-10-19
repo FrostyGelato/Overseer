@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
+
 public class Scheduler3 {
 
 	// get current date and time
@@ -69,6 +71,8 @@ public class Scheduler3 {
 		Session newSession;
 
 		LocalDate date = today;
+		
+		Integer id = 0;
 
 		// allocates sessions across multiple days
 		while (durationRequiredInMinutes > 0) {
@@ -128,7 +132,7 @@ public class Scheduler3 {
 					LocalTime sessionEndTime = sessionStartTime.plusMinutes(configWorkMinutes);
 
 					// create new session
-					newSession = new Session(name, sessionStartTime, sessionEndTime, date);
+					newSession = new Session(name, sessionStartTime, sessionEndTime, date, id);
 
 					// add session to array
 					sessionArray.add(newSession);
@@ -138,6 +142,8 @@ public class Scheduler3 {
 							- ((sessionNumberMap.getOrDefault(date, 0) + 1) * configCombinedMinutes);
 
 					sessionNumberMap.put(date, sessionNumberMap.getOrDefault(date, 0) + 1);
+					
+					id++;
 				}
 
 				date = date.plusDays(1);

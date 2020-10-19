@@ -36,7 +36,6 @@ public class SessionManager {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	public void addSessions(ArrayList<Session> sessions) {
@@ -51,6 +50,7 @@ public class SessionManager {
 			sessionPeriod.put("startTime", startTimeWithoutNano);
 			sessionPeriod.put("endTime", endTimeWithoutNano);
 			sessionPeriod.put("date", i.date.toString());
+			sessionPeriod.put("id", i.id);
 			
 			sessionArray.add(sessionPeriod);
 		}
@@ -68,11 +68,35 @@ public class SessionManager {
 	public ArrayList<Session> getSessions() {
 		for (Object i: sessionArray) {
 			JSONObject session = (JSONObject) i;
-			Session sessionInstance = new Session((String) session.get("name"), LocalTime.parse((String) session.get("startTime")), LocalTime.parse((String) session.get("endTime")), LocalDate.parse((String) session.get("date")));
+			Session sessionInstance = new Session((String) session.get("name"), LocalTime.parse((String) session.get("startTime")), LocalTime.parse((String) session.get("endTime")), LocalDate.parse((String) session.get("date")), (Integer) session.get("id"));
 			sessionArrayList.add(sessionInstance);
 		}
 		
 		return sessionArrayList;
+	}
+	
+	public void deleteSingleSession(MainMenu parentJFrame, String sessionName, Integer id) {
+		JSONArray tempArray = new JSONArray();
+		
+		for (Object i: sessionArray) {
+			
+			JSONObject session = (JSONObject) i;
+			
+			boolean sameName = session.get("name").equals(sessionName);
+			
+			Integer idInteger = Math.toIntExact((long) session.get("id"));
+			
+			boolean sameID = idInteger == id;
+			
+			if (sameName == false || sameID == false) {
+				
+				tempArray.add(session);
+			}
+		}
+		
+		sessionArray = tempArray;
+		
+		writeToDisk();
 	}
 	
 	public void writeToDisk() {

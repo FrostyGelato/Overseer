@@ -4,11 +4,13 @@ public class TaskForList {
 
 	public String name;
     public String time;
+    public Integer id;
 
-    public TaskForList(String name, String time) {
+    public TaskForList(String name, String time, Integer id) {
     	super();
         this.name = name;
         this.time = time;
+        this.id = id;
     }
 
 }

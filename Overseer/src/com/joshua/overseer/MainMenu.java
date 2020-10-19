@@ -140,6 +140,32 @@ public class MainMenu extends JFrame {
 		settingButton.setBounds(285, 728, 97, 25);
 		contentPane.add(settingButton);
 		
+		JButton btnNewButton_2 = new JButton("Mark as Finished");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if (taskJList.getSelectedValue() != null) {
+					
+					String sessionName = taskJList.getSelectedValue().name;
+					
+					SessionManager sessionManager = new SessionManager();
+					sessionManager.deleteSingleSession(thisFrame, sessionName, taskJList.getSelectedValue().id);
+					
+					TaskManager taskManager = new TaskManager();
+					taskManager.taskMinusOneSession(sessionName);
+					
+					refreshSchedule();
+				} else {
+					JLabel modifyMessage = new JLabel("<html>Please select a session before marking as finished.</html>", SwingConstants.CENTER);
+			    	modifyMessage.setFont(standardFont);
+					JOptionPane.showMessageDialog(null, modifyMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		btnNewButton_2.setFont(standardFont);
+		btnNewButton_2.setBounds(0, 703, 382, 25);
+		contentPane.add(btnNewButton_2);
+		
 		checkAndLoadSchedule();
 		
 		//must go after schedule is loaded
@@ -189,7 +215,7 @@ public class MainMenu extends JFrame {
 		
 			taskJList.setCellRenderer(new TaskListCellRenderer());
 			// sets the size of the schedule
-			taskJList.setBounds(6, 30, 370, 692);
+			taskJList.setBounds(6, 30, 370, 667);
 			contentPane.add(taskJList);
 		}
 	}
@@ -227,11 +253,13 @@ public class MainMenu extends JFrame {
           LocalDate taskDate = LocalDate.parse((String) jsonTask.get("date"));
           
           if (taskDate.equals(dateShown)) {
+        	  
         	  String name = (String) jsonTask.get("name");
               String startTime = (String) jsonTask.get("startTime");
               String endTime = (String) jsonTask.get("endTime");
+              Integer id = Math.toIntExact((long) jsonTask.get("id"));
               String time = startTime + " - " + endTime;
-              TaskForList taskEvent = new TaskForList(name, time);
+              TaskForList taskEvent = new TaskForList(name, time, id);
               listModel.addElement(taskEvent);
           }
         }

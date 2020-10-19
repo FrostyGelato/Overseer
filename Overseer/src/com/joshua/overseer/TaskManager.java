@@ -114,6 +114,30 @@ public class TaskManager {
 		return taskArrayList;
 	}
 	
+	public void taskMinusOneSession(String taskName) {
+		
+		ConfigManager configManager = new ConfigManager();
+		
+		JSONArray tempArray = new JSONArray();
+		
+		for (Object i: taskArray) {
+			JSONObject task = (JSONObject) i;
+			
+			if (task.get("name").equals(taskName)) {
+				
+				LocalTime taskLength = LocalTime.parse((String) task.get("timeRequired"));
+				
+				taskLength = taskLength.minusMinutes(configManager.getWorkTimeLength());
+				
+				task.put("timeRequired", taskLength.toString());
+			}
+			tempArray.add(task);
+		}
+		taskArray = tempArray;
+		
+		writeToDisk();
+	}
+	
 	//saves data to disk
 	public void writeToDisk() {
 		try {

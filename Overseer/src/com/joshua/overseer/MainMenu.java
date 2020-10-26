@@ -68,7 +68,9 @@ public class MainMenu extends JFrame {
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
 		sessionExists = directoryChecker.doesSessionExists();
-	
+		directoryChecker.createSessionFile();
+		sessionExists = true;
+		
 		JButton addTask = new JButton("Add");
 		addTask.setFont(standardFont);
 		addTask.addActionListener(new ActionListener() {
@@ -166,13 +168,12 @@ public class MainMenu extends JFrame {
 		btnNewButton_2.setBounds(0, 703, 382, 25);
 		contentPane.add(btnNewButton_2);
 		
-		checkAndLoadSchedule();
-		
-		//must go after schedule is loaded
 		JLabel lblNewLabel = new JLabel("Click Add to add a task");
 		lblNewLabel.setFont(standardFont);
 		lblNewLabel.setBounds(120, 340, 165, 30);
 		contentPane.add(lblNewLabel);
+		
+		checkAndLoadSchedule();
 		
 		JLabel lblNewLabel_1 = new JLabel(dateShown.toString());
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);

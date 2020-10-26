@@ -1,6 +1,8 @@
 package com.joshua.overseer;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DirectoryChecker {
 	
@@ -22,5 +24,15 @@ public class DirectoryChecker {
 			return false;
 		}
 	}
-
+	
+	public void createSessionFile() {
+		try {
+			FileWriter file = new FileWriter(sessionPath);
+			file.append("[]");
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

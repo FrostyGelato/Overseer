@@ -176,7 +176,7 @@ public class Settings extends JDialog {
 						Scheduler3 scheduler = new Scheduler3();
 						scheduler.recompute();
 						
-						parentFrame.checkAndRefreshSchedule();
+						parentFrame.refreshSchedule();
 						
 						dispose();
 					}

@@ -51,8 +51,6 @@ public class MainMenu extends JFrame {
 	JSONArray arrayForTimer;
 	ArrayList<SessionForTimer> arrayListForTime = new ArrayList<SessionForTimer>();
 	
-	boolean sessionExists;
-	
 	Font standardFont = new Font("Tahoma", Font.PLAIN, 16);
 
 	public MainMenu() {
@@ -67,9 +65,7 @@ public class MainMenu extends JFrame {
 		
 		// checks if folder for program exists
 		DirectoryChecker directoryChecker = new DirectoryChecker();
-		sessionExists = directoryChecker.doesSessionExists();
-		directoryChecker.createSessionFile();
-		sessionExists = true;
+		directoryChecker.checkForSession();
 		
 		JButton addTask = new JButton("Add");
 		addTask.setFont(standardFont);
@@ -168,12 +164,9 @@ public class MainMenu extends JFrame {
 		btnNewButton_2.setBounds(0, 703, 382, 25);
 		contentPane.add(btnNewButton_2);
 		
-		JLabel lblNewLabel = new JLabel("Click Add to add a task");
-		lblNewLabel.setFont(standardFont);
-		lblNewLabel.setBounds(120, 340, 165, 30);
-		contentPane.add(lblNewLabel);
+		shouldLoadAddText();
 		
-		checkAndLoadSchedule();
+		loadSchedule();
 		
 		JLabel lblNewLabel_1 = new JLabel(dateShown.toString());
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -185,7 +178,7 @@ public class MainMenu extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dateShown = dateShown.plusDays(1);
-				checkAndRefreshSchedule();
+				refreshSchedule();
 				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
@@ -197,7 +190,7 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dateShown = dateShown.minusDays(1);
-				checkAndRefreshSchedule();
+				refreshSchedule();
 				lblNewLabel_1.setText(dateShown.toString());
 			}
 		});
@@ -205,26 +198,17 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.setBounds(40, 2, 53, 26);
 		contentPane.add(btnNewButton_1);
 		
-		checkAndLoadTimer();
+		loadTimer();
 	}
 	
 	// secondary functions with checks
-	public void checkAndLoadSchedule() {
-		if (sessionExists) {
-			
-			loadData();
+	public void loadSchedule() {
+		loadData();
 		
-			taskJList.setCellRenderer(new TaskListCellRenderer());
-			// sets the size of the schedule
-			taskJList.setBounds(6, 30, 370, 667);
-			contentPane.add(taskJList);
-		}
-	}
-	
-	public void checkAndRefreshSchedule() {
-		if (sessionExists) {
-			refreshSchedule();
-		}
+		taskJList.setCellRenderer(new TaskListCellRenderer());
+		// sets the size of the schedule
+		taskJList.setBounds(6, 30, 370, 667);
+		contentPane.add(taskJList);
 	}
 	
 	public void refreshSchedule() {
@@ -269,12 +253,6 @@ public class MainMenu extends JFrame {
 	}
 	
 	//set ups notifications
-	public void checkAndLoadTimer() {
-		if (sessionExists) {
-			loadTimer();
-		}
-	}
-
 	public void loadTimer() {
 		
 		SessionForTimer sessionForTimer;
@@ -330,11 +308,22 @@ public class MainMenu extends JFrame {
 		}
 	}
 	
-	
 	// updates MainMenu when ListCellRenderer is added
 	public void refresh() {
 		this.validate();
 		this.repaint();
+	}
+	
+	public void shouldLoadAddText() {
+		SessionManager sessionManager = new SessionManager();
+		
+		if (sessionManager.checkIfEmpty()) {
+			
+			JLabel lblNewLabel = new JLabel("Click Add to add a task");
+			lblNewLabel.setFont(standardFont);
+			lblNewLabel.setBounds(120, 340, 165, 30);
+			contentPane.add(lblNewLabel);
+		}
 	}
 	
 	// only for AddMenu

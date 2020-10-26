@@ -17,11 +17,9 @@ public class DirectoryChecker {
 		}
 	}
 	
-	public boolean doesSessionExists() {
-		if (new File(sessionPath).isFile() == true) {
-			return true;
-		} else {
-			return false;
+	public void checkForSession() {
+		if (new File(sessionPath).isFile() == false) {
+			createSessionFile();
 		}
 	}
 	

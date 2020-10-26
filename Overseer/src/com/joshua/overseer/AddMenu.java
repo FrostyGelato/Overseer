@@ -143,9 +143,9 @@ public class AddMenu extends JDialog {
 							
 							// refreshes schedule in parent JFrame
 							parentJFrame.removeText();
-							parentJFrame.checkAndLoadSchedule();
-							parentJFrame.checkAndLoadTimer();
+							parentJFrame.refreshSchedule();
 							parentJFrame.refresh();
+							parentJFrame.loadTimer();
 							
 							dispose();
 						}					

@@ -99,6 +99,14 @@ public class SessionManager {
 		writeToDisk();
 	}
 	
+	public boolean checkIfEmpty() {
+		if (sessionArray.isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public void writeToDisk() {
 		try {
 			FileWriter file = new FileWriter(sessionPath);

@@ -29,6 +29,8 @@ public class Settings extends JDialog {
 	
 	int breakSpinnerValue;
 	int workSpinnerValue;
+	
+	Font standardFont = new Font("Tahoma", Font.PLAIN, 16);
 
 	public Settings(MainMenu parentFrame) throws IOException {
 		
@@ -142,6 +144,7 @@ public class Settings extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setFont(standardFont);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -184,6 +187,7 @@ public class Settings extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setFont(standardFont);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

@@ -83,6 +83,12 @@ public class TaskManager {
 		scheduler.recompute();
 	}
 	
+	public void deleteTaskWithRefresh(String taskName, MainMenu parentJFrame) {
+		deleteTask(taskName);
+		
+		parentJFrame.refreshSchedule();
+	}
+	
 	public String getTimeRequired(String taskName) {
 		// used by ModifyMenu
 		

@@ -68,7 +68,7 @@ public class SessionManager {
 	public ArrayList<Session> getSessions() {
 		for (Object i: sessionArray) {
 			JSONObject session = (JSONObject) i;
-			Session sessionInstance = new Session((String) session.get("name"), LocalTime.parse((String) session.get("startTime")), LocalTime.parse((String) session.get("endTime")), LocalDate.parse((String) session.get("date")), (Integer) session.get("id"));
+			Session sessionInstance = new Session((String) session.get("name"), LocalTime.parse((String) session.get("startTime")), LocalTime.parse((String) session.get("endTime")), LocalDate.parse((String) session.get("date")), Math.toIntExact((Long) session.get("id")));
 			sessionArrayList.add(sessionInstance);
 		}
 		

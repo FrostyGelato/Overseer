@@ -110,7 +110,7 @@ public class MainMenu extends JFrame {
 				if (taskJList.getSelectedValue() != null) {
 					TaskManager taskManager = new TaskManager();
 					
-					taskManager.deleteTask(taskJList.getSelectedValue().name);
+					taskManager.deleteTaskWithRefresh(taskJList.getSelectedValue().name, thisFrame);
 					
 					refreshSchedule();
 				} else {

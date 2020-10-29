@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -129,15 +130,28 @@ public class TaskManager {
 		for (Object i: taskArray) {
 			JSONObject task = (JSONObject) i;
 			
+			LocalTime taskLength = LocalTime.parse((String) task.get("timeRequired"));
+			
+			Duration hoursRequired = Duration.ofHours(taskLength.getHour());
+			int minutesRequired = taskLength.getMinute();
+			Integer taskLengthDuration = (int) hoursRequired.toMinutes() + minutesRequired;
+			
+			boolean keepTask = true;
+			
 			if (task.get("name").equals(taskName)) {
 				
-				LocalTime taskLength = LocalTime.parse((String) task.get("timeRequired"));
-				
-				taskLength = taskLength.minusMinutes(configManager.getWorkTimeLength());
-				
-				task.put("timeRequired", taskLength.toString());
+				if (taskLengthDuration > configManager.getWorkTimeLength()) {
+					taskLength = taskLength.minusMinutes(configManager.getWorkTimeLength());
+					
+					task.put("timeRequired", taskLength.toString());
+				} else {
+					keepTask = false;
+				}
 			}
-			tempArray.add(task);
+			
+			if (keepTask) {
+				tempArray.add(task);
+			}
 		}
 		taskArray = tempArray;
 		

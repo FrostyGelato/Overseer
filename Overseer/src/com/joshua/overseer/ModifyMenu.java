@@ -92,6 +92,7 @@ public class ModifyMenu extends JDialog {
         dateSettings.setFontTodayLabel(standardFont);
         
 		DateTimePicker deadlinePicker = new DateTimePicker(dateSettings, timeSettings);
+		deadlinePicker.setDateTimeStrict(taskManager.getDeadline(taskName));
 		deadlinePicker.getTimePicker().getComponentTimeTextField().setFont(standardFont);
 		deadlinePicker.setBounds(90, 101, 300, 34);
 		contentPanel.add(deadlinePicker);
@@ -122,9 +123,9 @@ public class ModifyMenu extends JDialog {
 						
 						if (deadline.isBefore(LocalDateTime.now())) {
 							
-							JLabel message = new JLabel("<html>The deadline date cannot be prior to today.<br/>Please select a later date.</html>", SwingConstants.CENTER);
+							JLabel message = new JLabel("<html>The deadline date cannot be set in the past.<br/>Please select a later date.</html>", SwingConstants.CENTER);
 					    	message.setFont(standardFont);
-							JOptionPane.showMessageDialog(null, message, "Illegal Date",JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, message, "Illegal Time",JOptionPane.WARNING_MESSAGE);
 							
 						} else if (timeChecker.checkIfEnoughTime(deadline.toLocalDate(), length) == false){
 							

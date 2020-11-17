@@ -108,6 +108,24 @@ public class TaskManager {
 		return timeRequired;
 	}
 	
+	public LocalDateTime getDeadline(String taskName) {
+		// used by ModifyMenu
+		
+		LocalDateTime deadline = LocalDateTime.now();
+		
+		if (taskArray != null) {
+			for (int i=0; i<taskArray.size(); i++) {
+				JSONObject taskObject = (JSONObject) taskArray.get(i);
+				
+				if (taskName.equals(taskObject.get("name"))) {
+					deadline = LocalDateTime.parse((String) taskObject.get("deadline"));
+				}
+			}
+		}
+		
+		return deadline;
+	}
+	
 	public ArrayList<Task> getTasks() {
 		
 		ArrayList<Task> taskArrayList = new ArrayList<>();

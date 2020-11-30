@@ -10,7 +10,6 @@ public class Task {
 	public LocalTime timeRequired;
 
 	public Task(String name, LocalDateTime deadline, LocalTime timeRequired) {
-		super();
 		this.name = name;
 		this.deadline = deadline;
 		this.timeRequired = timeRequired;

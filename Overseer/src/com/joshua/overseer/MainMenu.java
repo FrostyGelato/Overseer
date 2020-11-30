@@ -154,9 +154,9 @@ public class MainMenu extends JFrame {
 					
 					refreshSchedule();
 				} else {
-					JLabel modifyMessage = new JLabel("<html>Please select a session before marking as finished.</html>", SwingConstants.CENTER);
-			    	modifyMessage.setFont(standardFont);
-					JOptionPane.showMessageDialog(null, modifyMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
+					JLabel finishedMessage = new JLabel("<html>Please select a session before marking as finished.</html>", SwingConstants.CENTER);
+			    	finishedMessage.setFont(standardFont);
+					JOptionPane.showMessageDialog(null, finishedMessage, "No Task Selected",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});

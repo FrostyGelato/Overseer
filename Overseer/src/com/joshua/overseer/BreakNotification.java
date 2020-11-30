@@ -6,7 +6,6 @@ public class BreakNotification extends Notification {
 		templateNotification("Break Time", "Take a break.");
 	}
 	
-	// will run immediately if scheduled time has already past
 	@Override
 	public void run() {
 		notification();

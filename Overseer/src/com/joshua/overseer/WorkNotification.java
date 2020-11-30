@@ -13,7 +13,6 @@ public class WorkNotification extends Notification {
 		templateNotification(taskName, "Time to get started on this task!");
 	}
 	
-	// will run immediately if scheduled time has already past
 	@Override
 	public void run() {
 		notification(name);

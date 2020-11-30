@@ -7,7 +7,6 @@ public class TaskForList {
     public Integer id;
 
     public TaskForList(String name, String time, Integer id) {
-    	super();
         this.name = name;
         this.time = time;
         this.id = id;

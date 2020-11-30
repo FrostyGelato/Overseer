@@ -37,6 +37,7 @@ public class Notification extends TimerTask {
         }
 	}
 
+	// will run immediately if scheduled time has already passed
 	@Override
 	public void run() {
 

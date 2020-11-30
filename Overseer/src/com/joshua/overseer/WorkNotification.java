@@ -1,13 +1,5 @@
 package com.joshua.overseer;
 
-import java.awt.AWTException;
-import java.awt.Image;
-import java.awt.SystemTray;
-import java.awt.Toolkit;
-import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
-import java.util.TimerTask;
-
 public class WorkNotification extends Notification {
 	
 	String name;

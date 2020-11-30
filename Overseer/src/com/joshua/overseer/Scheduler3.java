@@ -31,9 +31,6 @@ public class Scheduler3 {
 	LocalTime previousSessionEnds = configWorkStartTime;
 	LocalTime lastSessionEnds = previousSessionEnds;
 
-	public Scheduler3() {
-	}
-
 	public void recompute() {
 
 		sessionManager.sessionArray.clear();

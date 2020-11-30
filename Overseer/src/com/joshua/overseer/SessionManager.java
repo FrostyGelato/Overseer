@@ -65,10 +65,25 @@ public class SessionManager {
 		writeToDisk();
 	}
 	
+	// returns a list of everything in the sessions file
 	public ArrayList<Session> getSessions() {
+		
 		for (Object i: sessionArray) {
+			
 			JSONObject session = (JSONObject) i;
-			Session sessionInstance = new Session((String) session.get("name"), LocalTime.parse((String) session.get("startTime")), LocalTime.parse((String) session.get("endTime")), LocalDate.parse((String) session.get("date")), Math.toIntExact((Long) session.get("id")));
+			
+			String sessionName = (String) session.get("name");
+			LocalTime sessionStartTime =  LocalTime.parse((String) session.get("startTime"));
+			LocalTime sessionEndTime = LocalTime.parse((String) session.get("endTime"));
+			LocalDate sessionDate = LocalDate.parse((String) session.get("date"));
+			Integer sessionID;
+			if (session.get("id") instanceof Integer) {
+				sessionID = (Integer) session.get("id");
+			} else {
+				sessionID = Math.toIntExact((long) session.get("id"));
+			}
+			
+			Session sessionInstance = new Session(sessionName, sessionStartTime, sessionEndTime, sessionDate, sessionID);
 			sessionArrayList.add(sessionInstance);
 		}
 		

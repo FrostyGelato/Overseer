@@ -219,7 +219,7 @@ public class MainMenu extends JFrame {
         taskJList.setModel(listModel);
 	}
 	
-	public void loadData() {
+	private void loadData() {
 		
 		JSONParser parser = new JSONParser();
 		
@@ -253,7 +253,7 @@ public class MainMenu extends JFrame {
 	}
 	
 	//set ups notifications
-	public void loadTimer() {
+	private void loadTimer() {
 		
 		SessionForTimer sessionForTimer;
 		
@@ -308,13 +308,7 @@ public class MainMenu extends JFrame {
 		}
 	}
 	
-	// updates MainMenu when ListCellRenderer is added
-	public void refresh() {
-		this.validate();
-		this.repaint();
-	}
-	
-	public void shouldLoadAddText() {
+	private void shouldLoadAddText() {
 		SessionManager sessionManager = new SessionManager();
 		
 		if (sessionManager.checkIfEmpty()) {
@@ -342,5 +336,11 @@ public class MainMenu extends JFrame {
 		    	}
 		    }
 		}
+	}
+	
+	// updates MainMenu when ListCellRenderer is added
+	public void refresh() {
+		this.validate();
+		this.repaint();
 	}
 }

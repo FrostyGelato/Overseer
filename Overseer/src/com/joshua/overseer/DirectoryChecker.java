@@ -23,7 +23,7 @@ public class DirectoryChecker {
 		}
 	}
 	
-	public void createSessionFile() {
+	private void createSessionFile() {
 		try {
 			FileWriter file = new FileWriter(sessionPath);
 			file.append("[]");

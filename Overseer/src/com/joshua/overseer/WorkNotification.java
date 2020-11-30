@@ -8,16 +8,23 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.util.TimerTask;
 
-public class BreakNotification extends Notification {
+public class WorkNotification extends Notification {
+	
+	String name;
+	
+	// runs when the timer is set up
+	public WorkNotification(String taskName) {
+		name = taskName;
+	}
 
-	public void notification() {
-		templateNotification("Break Time", "Take a break.");
+	public void notification(String taskName) {
+		templateNotification(taskName, "Time to get started on this task!");
 	}
 	
 	// will run immediately if scheduled time has already past
 	@Override
 	public void run() {
-		notification();
+		notification(name);
 	}
 
 }

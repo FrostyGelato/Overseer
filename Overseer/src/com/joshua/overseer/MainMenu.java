@@ -299,7 +299,7 @@ public class MainMenu extends JFrame {
 				Date scheduledWorkTime = dateFormatter.parse(LocalDate.now() + " " + i.startTime.toString());
 				Date scheduledBreakTime = dateFormatter.parse(LocalDate.now() + " " + i.endTime.toString());
 				
-				timer.schedule(new Notification(i.name), scheduledWorkTime);
+				timer.schedule(new WorkNotification(i.name), scheduledWorkTime);
 				timer.schedule(new BreakNotification(), scheduledBreakTime);
 			}
 			

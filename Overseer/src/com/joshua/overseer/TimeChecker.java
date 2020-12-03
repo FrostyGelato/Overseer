@@ -23,10 +23,6 @@ public class TimeChecker {
 	
 	LocalTime previousSessionEnds = configWorkStartTime;
 	LocalTime lastSessionEnds = previousSessionEnds;
-
-	public TimeChecker() {
-		
-	}
 	
 	public boolean checkIfEnoughTime(LocalDate deadline, LocalTime timeRequired) {
 		

@@ -1,4 +1,4 @@
-// made by Joshua Fan
+// made by Shuya Fan
 package com.joshua.overseer;
 
 import javax.swing.SwingUtilities;

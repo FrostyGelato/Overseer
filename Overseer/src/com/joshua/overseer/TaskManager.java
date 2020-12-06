@@ -131,7 +131,9 @@ public class TaskManager {
 		
 		for (Object i: taskArray) {
 			JSONObject task = (JSONObject) i;
-			Task taskInstance = new Task((String) task.get("name"), LocalDateTime.parse((String) task.get("deadline")), LocalTime.parse((String) task.get("timeRequired")));
+			Task taskInstance = new Task((String) task.get("name"), 
+					LocalDateTime.parse((String) task.get("deadline")), 
+					LocalTime.parse((String) task.get("timeRequired")));
 			taskArrayList.add(taskInstance);
 		}
 		

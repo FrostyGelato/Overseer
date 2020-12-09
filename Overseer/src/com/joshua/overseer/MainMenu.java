@@ -264,25 +264,25 @@ public class MainMenu extends JFrame {
 			LocalTime startTime = LocalTime.parse((String) jsonTask.get("startTime"));
 			LocalTime endTime = LocalTime.parse((String) jsonTask.get("endTime"));
 			
-			boolean startsNowOrAFewMinutesBefore = false;
+			boolean shouldLoadTimer = false;
 			
 			if (startTime.isAfter(LocalTime.now())) {
 				
-				startsNowOrAFewMinutesBefore = true;
+				shouldLoadTimer = true;
 				
 			} else { //if session starts before current time
 				
 				Duration howMuchTimeBefore = Duration.between(startTime, LocalTime.now());
 				long howManyMinutesBefore = howMuchTimeBefore.toMinutes();
 				
-				if (howManyMinutesBefore < 5) {
+				if (howManyMinutesBefore < 60) {
 					
-					startsNowOrAFewMinutesBefore = true;
+					shouldLoadTimer = true;
 				}
 			}
 			
 			// a notification will only play if start time is not before now
-			if (taskDate.equals(LocalDate.now()) && startsNowOrAFewMinutesBefore) {
+			if (taskDate.equals(LocalDate.now()) && shouldLoadTimer) {
 				sessionForTimer = new SessionForTimer((String) jsonTask.get("name"), startTime, endTime);
 				arrayListForTime.add(sessionForTimer);
 			}
